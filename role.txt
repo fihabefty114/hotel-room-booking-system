@@ -1,0 +1,104 @@
+Ifty(Guest, Admin)
+Create Github repo
+Create brach Database setup
+Ifty-Add shared database schema and connection setup
+Guest Module
+Create brach guest-module
+Register
+Login
+Logout
+Guest dashboard
+Session check
+Role-based access control
+ Files  structure for Guest Module
+ controllers/
+├── AuthController.php
+├── GuestController.php
+└── GuestAjaxController.php
+
+models/
+├── UserModel.php
+├── GuestModel.php
+├── RoomModel.php
+├── BookingModel.php
+├── ServiceRequestModel.php
+├── ReviewModel.php
+└── BillingModel.php
+
+views/
+├── loginView.php
+├── registerView.php
+├── guestDashboardView.php
+├── guestProfileView.php
+├── guestEditProfileView.php
+├── guestSearchRoomView.php
+├── guestBookingView.php
+├── guestMyBookingsView.php
+├── guestServiceRequestView.php
+├── guestReviewView.php
+└── guestBillingHistoryView.php
+
+assets/js/
+└── guestRoomSearch.js
+
+
+Phase 1 — Guest authentication
+Register
+Login
+Logout
+Guest dashboard
+Session check
+Role-based access control
+
+Phase 2 — Guest profile
+View profile
+Update personal information
+Change password
+Upload profile picture
+View loyalty points balance
+
+Phase 3 — AJAX room search
+Check-in date
+Check-out date
+Number of guests
+AJAX request
+PHP controller JSON response
+Room types show without page reload
+
+workflow
+guestSearchRoomView.php
+↓
+assets/js/guestRoomSearch.js
+↓
+index.php?route=ajax-search-rooms
+↓
+GuestAjaxController.php
+↓
+RoomModel.php
+↓
+JSON response
+↓
+Dynamic result display
+
+Phase 4 — Booking
+Select room type
+Calculate total price
+Confirm booking
+Show booking confirmation
+
+Phase 5 — Guest booking management
+View upcoming/past bookings
+View booking details
+Cancel booking
+Request modification
+
+Phase 6 — Service request, review, loyalty, billing
+Submit service request
+Track service status
+Submit/edit/delete review
+View loyalty points
+Redeem points
+View billing history
+==================================================================================
+Rithy(Receipetion, HouseKeeping)
+
