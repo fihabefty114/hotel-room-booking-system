@@ -1,0 +1,113 @@
+function searchAvailableRooms() {
+    var checkinDate = document.getElementById("checkin_date").value;
+    var checkoutDate = document.getElementById("checkout_date").value;
+    var numGuests = document.getElementById("num_guests").value;
+
+    var messageBox = document.getElementById("roomSearchMessage");
+    var resultBox = document.getElementById("roomSearchResult");
+
+    messageBox.innerHTML = "";
+    resultBox.innerHTML = "";
+
+    if (checkinDate === "" || checkoutDate === "" || numGuests === "") {
+        messageBox.innerHTML = "<div class='alert-error'>All fields are required.</div>";
+        resultBox.innerHTML = "<p>No result.</p>";
+        return;
+    }
+
+    if (checkoutDate <= checkinDate) {
+        messageBox.innerHTML = "<div class='alert-error'>Check-out date must be after check-in date.</div>";
+        resultBox.innerHTML = "<p>No result.</p>";
+        return;
+    }
+
+    if (parseInt(numGuests) <= 0) {
+        messageBox.innerHTML = "<div class='alert-error'>Number of guests must be greater than 0.</div>";
+        resultBox.innerHTML = "<p>No result.</p>";
+        return;
+    }
+
+    resultBox.innerHTML = "<p>Searching available rooms...</p>";
+
+    var requestData = {
+        checkin_date: checkinDate,
+        checkout_date: checkoutDate,
+        num_guests: numGuests
+    };
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState === 4) {
+            if (xhttp.status === 200) {
+                var response = JSON.parse(xhttp.responseText);
+
+                if (response.status === "success") {
+                    showRoomResults(response.rooms, checkinDate, checkoutDate, numGuests);
+                } else {
+                    messageBox.innerHTML = "<div class='alert-error'>" + response.message + "</div>";
+                    resultBox.innerHTML = "<p>No room found.</p>";
+                }
+            } else {
+                messageBox.innerHTML = "<div class='alert-error'>AJAX request failed.</div>";
+                resultBox.innerHTML = "<p>No result.</p>";
+            }
+        }
+    };
+
+    xhttp.open("POST", "index.php?route=ajax-search-rooms", true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.send(JSON.stringify(requestData));
+}
+
+function showRoomResults(rooms, checkinDate, checkoutDate, numGuests) {
+    var resultBox = document.getElementById("roomSearchResult");
+
+    if (rooms.length === 0) {
+        resultBox.innerHTML = "<p>No available room found for the selected dates.</p>";
+        return;
+    }
+
+    var output = "";
+
+    for (var i = 0; i < rooms.length; i++) {
+        output += "<div class='room-card'>";
+
+        output += "<h3>" + rooms[i].name + "</h3>";
+        output += "<p><strong>Description:</strong> " + rooms[i].description + "</p>";
+        output += "<p><strong>Capacity:</strong> " + rooms[i].max_capacity + " guests</p>";
+        output += "<p><strong>Available Rooms:</strong> " + rooms[i].available_rooms + "</p>";
+
+        if (rooms[i].seasonal_label !== "") {
+            output += "<p><strong>Seasonal Pricing:</strong> " + rooms[i].seasonal_label + "</p>";
+            output += "<p><strong>Price per Night:</strong> " + rooms[i].display_price + " BDT</p>";
+        } else {
+            output += "<p><strong>Price per Night:</strong> " + rooms[i].price_per_night + " BDT</p>";
+        }
+
+        output += "<p><strong>Amenities:</strong> ";
+
+        if (rooms[i].amenities.length > 0) {
+            for (var j = 0; j < rooms[i].amenities.length; j++) {
+                output += rooms[i].amenities[j];
+
+                if (j < rooms[i].amenities.length - 1) {
+                    output += ", ";
+                }
+            }
+        } else {
+            output += "No amenities listed";
+        }
+
+        output += "</p>";
+
+        output += "<p><strong>Selected Dates:</strong> " + checkinDate + " to " + checkoutDate + "</p>";
+        output += "<p><strong>Guests:</strong> " + numGuests + "</p>";
+
+        output += "<a class='btn' href='#'>Book This Room - Next Phase</a>";
+
+        output += "</div>";
+    }
+
+    resultBox.innerHTML = output;
+}

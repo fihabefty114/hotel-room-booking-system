@@ -49,7 +49,7 @@ switch ($route) {
     
 
 
-    case "guest-search-rooms":
+       case "guest-search-rooms":
         require_once __DIR__ . "/controllers/GuestController.php";
         showGuestSearchRooms();
         break;

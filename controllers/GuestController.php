@@ -251,4 +251,13 @@ function handleGuestPasswordChange() {
     }
 }
 
+    function showGuestSearchRooms() {
+    requireGuest();
+
+    require __DIR__ . "/../views/guestSearchRoomView.php";
+    }
+
+
+
+
 ?>
