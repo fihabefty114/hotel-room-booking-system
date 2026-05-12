@@ -185,12 +185,57 @@ case "guest-download-receipt":
 
     case "receptionist-check-in":
         require_once __DIR__ . "/controllers/ReceptionistController.php";
-        showCheckInPage();
+        showReceptionistCheckInPage();
+        break;
+
+    case "do-receptionist-check-in":
+        require_once __DIR__ . "/controllers/ReceptionistController.php";
+        processReceptionistCheckIn();
         break;
 
     case "receptionist-check-out":
         require_once __DIR__ . "/controllers/ReceptionistController.php";
-        showCheckOutPage();
+        showReceptionistCheckOutPage();
+        break;
+
+    case "do-receptionist-check-out":
+        require_once __DIR__ . "/controllers/ReceptionistController.php";
+        processReceptionistCheckOut();
+        break;
+
+    case "receptionist-room-status":
+        require_once __DIR__ . "/controllers/ReceptionistController.php";
+        showReceptionistRoomStatusPage();
+        break;
+
+    case "ajax-receptionist-room-status":
+        require_once __DIR__ . "/controllers/ReceptionistController.php";
+        getReceptionistRoomStatusAjax();
+        break;
+
+    case "receptionist-service-requests":
+        require_once __DIR__ . "/controllers/ReceptionistController.php";
+        showReceptionistServiceRequestsPage();
+        break;
+
+    case "do-update-service-request-status":
+        require_once __DIR__ . "/controllers/ReceptionistController.php";
+        processReceptionistServiceRequestUpdate();
+        break;
+
+    case "receptionist-payments":
+        require_once __DIR__ . "/controllers/ReceptionistController.php";
+        showReceptionistPaymentPage();
+        break;
+
+    case "do-receptionist-payment":
+        require_once __DIR__ . "/controllers/ReceptionistController.php";
+        processReceptionistPayment();
+        break;
+
+    case "receptionist-daily-report":
+        require_once __DIR__ . "/controllers/ReceptionistController.php";
+        showReceptionistDailyReport();
         break;
 
 
