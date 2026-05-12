@@ -101,6 +101,15 @@ Submit/edit/delete review
 View loyalty points
 Redeem points
 View billing history
+
+Admin Module
+Phase 1 — Admin login redirect + dashboard
+Phase 2 — Manage room types
+Phase 3 — Manage rooms
+Phase 4 — Manage seasonal pricing
+Phase 5 — Manage staff accounts
+Phase 6 — Manage guests + bookings
+Phase 7 — Reviews + reports + printable export
 ==================================================================================
 Rithy(Receipetion, HouseKeeping)
 Receptionist Module — Phase 1
@@ -112,3 +121,13 @@ Room Status Board with AJAX
 Pending Service Requests
 Update Service Request Status
 
+✅ Housekeeping dashboard
+✅ Manage profile
+✅ View dirty rooms
+✅ Take cleaning task
+✅ Update task status: pending → in_progress → completed
+✅ Completed করলে room status dirty → available হবে
+✅ Room status board with AJAX
+✅ Submit maintenance report
+✅ View own maintenance reports
+✅ Daily housekeeping report
