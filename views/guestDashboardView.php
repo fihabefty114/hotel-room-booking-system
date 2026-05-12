@@ -20,16 +20,16 @@
 
     <h3>Guest Features</h3>
 
-    <ul class="feature-list">
-        <li>Manage Profile - Next phase</li>
-        <li>Search Available Rooms with AJAX - Next phase</li>
-        <li>Book Room - Next phase</li>
-        <li>My Bookings - Next phase</li>
-        <li>Service Requests - Next phase</li>
-        <li>Reviews - Next phase</li>
-        <li>Loyalty Points - Next phase</li>
-        <li>Billing History - Next phase</li>
-    </ul>
+    <div class="feature-grid">
+        <a class="feature-card" href="index.php?route=guest-profile">Manage Profile</a>
+        <a class="feature-card" href="index.php?route=guest-search-rooms">Search Available Rooms with AJAX</a>        
+        <a class="feature-card" href="index.php?route=guest-search-rooms">Book Room</a>
+        <a class="feature-card" href="index.php?route=guest-my-bookings">My Bookings</a>  
+        <a class="feature-card" href="index.php?route=guest-service-requests">Service Requests</a>
+       <a class="feature-card" href="index.php?route=guest-reviews">Reviews</a>
+        <a class="feature-card" href="index.php?route=guest-profile">Loyalty Points</a>
+        <a class="feature-card" href="index.php?route=guest-billing-history">Billing History</a>      
+    </div>
 
     <div class="nav-links">
         <a class="btn btn-danger" href="index.php?route=logout">Logout</a>

@@ -4,6 +4,8 @@ Create brach Database setup
 Ifty-Add shared database schema and connection setup
 Guest Module
 Create brach guest-module
+push phase 1 2 3 4 5 6 into the branch
+
 Register
 Login
 Logout
@@ -101,4 +103,12 @@ Redeem points
 View billing history
 ==================================================================================
 Rithy(Receipetion, HouseKeeping)
+Receptionist Module — Phase 1
+Receptionist Dashboard
+Today Check-in List
+Check-in Guest
+Check-out Guest
+Room Status Board with AJAX
+Pending Service Requests
+Update Service Request Status
 

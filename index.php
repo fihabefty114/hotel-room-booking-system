@@ -46,17 +46,10 @@ switch ($route) {
        Ifti / Guest Module
     ========================= */
 
-    case "guest-dashboard":
-        require_once __DIR__ . "/controllers/GuestController.php";
-        showGuestDashboard();
-        break;
+    
 
-    case "guest-profile":
-        require_once __DIR__ . "/controllers/GuestController.php";
-        showGuestProfile();
-        break;
 
-    case "guest-search-rooms":
+       case "guest-search-rooms":
         require_once __DIR__ . "/controllers/GuestController.php";
         showGuestSearchRooms();
         break;
@@ -66,6 +59,119 @@ switch ($route) {
         searchAvailableRoomsAjax();
         break;
 
+        case "guest-dashboard":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        showGuestDashboard();
+        break;
+
+    case "guest-profile":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        showGuestProfile();
+        break;
+
+    case "guest-edit-profile":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        showGuestEditProfile();
+        break;
+
+    case "do-guest-update-profile":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        handleGuestProfileUpdate();
+        break;
+
+    case "do-guest-upload-profile-picture":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        handleGuestProfilePictureUpload();
+        break;
+
+    case "guest-change-password":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        showGuestChangePassword();
+        break;
+
+    case "do-guest-change-password":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        handleGuestPasswordChange();
+        break;
+
+        case "guest-book-room":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestBookRoom();
+    break;
+
+case "do-guest-confirm-booking":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestBookingConfirm();
+    break;
+
+case "guest-booking-confirmation":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestBookingConfirmation();
+    break;
+
+    case "guest-my-bookings":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestMyBookings();
+    break;
+
+case "do-guest-cancel-booking":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestCancelBooking();
+    break;
+
+    case "guest-service-requests":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestServiceRequests();
+    break;
+
+case "do-guest-service-request":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestServiceRequestSubmit();
+    break;
+
+case "guest-reviews":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestReviews();
+    break;
+
+case "do-guest-submit-review":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestReviewSubmit();
+    break;
+
+case "do-guest-update-review":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestReviewUpdate();
+    break;
+
+case "do-guest-delete-review":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestReviewDelete();
+    break;
+
+case "guest-billing-history":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestBillingHistory();
+    break;
+
+case "do-guest-redeem-points":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestRedeemPoints();
+    break;
+case "guest-room-type-details":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestRoomTypeDetails();
+    break;
+
+case "guest-receipt":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestReceipt();
+    break;
+
+case "guest-download-receipt":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    downloadGuestReceipt();
+    break;
 
     /* =========================
        Receptionist Routes
