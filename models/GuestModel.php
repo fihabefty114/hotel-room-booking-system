@@ -114,5 +114,92 @@ function getGuestLoyaltyHistory($guestId) {
 
     return $history;
 }
+function hasGuestEarnedPointsForBooking($guestId, $bookingId) {
+    $conn = getConnection();
+
+    $sql = "SELECT id FROM loyalty_points
+            WHERE guest_id = ?
+            AND booking_id = ?
+            AND points_earned > 0
+            LIMIT 1";
+
+    $stmt = mysqli_prepare($conn, $sql);
+
+    mysqli_stmt_bind_param($stmt, "ii", $guestId, $bookingId);
+
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    $exists = false;
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $exists = true;
+    }
+
+    mysqli_stmt_close($stmt);
+
+    return $exists;
+}
+
+function addGuestEarnedPoints($guestId, $bookingId, $pointsEarned, $newBalance) {
+    $conn = getConnection();
+
+    $pointsUsed = 0;
+
+    $sql = "INSERT INTO loyalty_points
+            (guest_id, booking_id, points_earned, points_used, balance)
+            VALUES (?, ?, ?, ?, ?)";
+
+    $stmt = mysqli_prepare($conn, $sql);
+
+    mysqli_stmt_bind_param($stmt, "iiiii", $guestId, $bookingId, $pointsEarned, $pointsUsed, $newBalance);
+
+    $success = mysqli_stmt_execute($stmt);
+
+    mysqli_stmt_close($stmt);
+
+    return $success;
+}
+
+function syncGuestLoyaltyPoints($guestId) {
+    $conn = getConnection();
+
+    $sql = "SELECT bookings.id AS booking_id, bookings.total_price
+            FROM bookings
+            WHERE bookings.guest_id = ?
+            AND bookings.status = 'checked_out'
+            ORDER BY bookings.id ASC";
+
+    $stmt = mysqli_prepare($conn, $sql);
+
+    mysqli_stmt_bind_param($stmt, "i", $guestId);
+
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $bookingId = $row["booking_id"];
+
+            $alreadyEarned = hasGuestEarnedPointsForBooking($guestId, $bookingId);
+
+            if (!$alreadyEarned) {
+                $currentBalance = getGuestLoyaltyBalance($guestId);
+
+                $pointsEarned = (int)($row["total_price"] / 100);
+
+                if ($pointsEarned > 0) {
+                    $newBalance = $currentBalance + $pointsEarned;
+
+                    addGuestEarnedPoints($guestId, $bookingId, $pointsEarned, $newBalance);
+                }
+            }
+        }
+    }
+
+    mysqli_stmt_close($stmt);
+}
 
 ?>

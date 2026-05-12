@@ -114,4 +114,60 @@ function searchAvailableRoomTypes($checkinDate, $checkoutDate, $numGuests) {
     return $availableRoomTypes;
 }
 
+function getRoomTypeDetailsById($roomTypeId) {
+    $conn = getConnection();
+
+    $sql = "SELECT 
+                room_types.*,
+                AVG(reviews.cleanliness_rating) AS avg_cleanliness,
+                AVG(reviews.service_rating) AS avg_service,
+                AVG(reviews.overall_rating) AS avg_overall
+            FROM room_types
+            LEFT JOIN bookings ON room_types.id = bookings.room_type_id
+            LEFT JOIN reviews ON bookings.id = reviews.booking_id
+            WHERE room_types.id = ?
+            GROUP BY room_types.id
+            LIMIT 1";
+
+    $stmt = mysqli_prepare($conn, $sql);
+
+    mysqli_stmt_bind_param($stmt, "i", $roomTypeId);
+
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    $roomType = null;
+
+    if ($result && mysqli_num_rows($result) === 1) {
+        $roomType = mysqli_fetch_assoc($result);
+    }
+
+    mysqli_stmt_close($stmt);
+
+    return $roomType;
+}
+
+function getRoomTypeImages($roomTypeName) {
+    $images = array();
+
+    if ($roomTypeName === "Standard") {
+        $images[] = "assets/images/standard1.jpg";
+        $images[] = "assets/images/standard2.jpg";
+        $images[] = "assets/images/standard3.jpg";
+    } else if ($roomTypeName === "Deluxe") {
+        $images[] = "assets/images/deluxe1.jpg";
+        $images[] = "assets/images/deluxe2.jpg";
+        $images[] = "assets/images/deluxe3.jpg";
+    } else if ($roomTypeName === "Suite") {
+        $images[] = "assets/images/suite1.jpg";
+        $images[] = "assets/images/suite2.jpg";
+        $images[] = "assets/images/suite3.jpg";
+    } else {
+        $images[] = "assets/images/room_default.jpg";
+    }
+
+    return $images;
+}
+
 ?>

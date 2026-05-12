@@ -116,8 +116,14 @@ function showRoomResults(rooms, checkinDate, checkoutDate, numGuests) {
             "&checkin_date=" + checkinDate +
             "&checkout_date=" + checkoutDate +
             "&num_guests=" + numGuests;
+        var detailUrl = "index.php?route=guest-room-type-details" +
+    "&room_type_id=" + rooms[i].id +
+    "&checkin_date=" + checkinDate +
+    "&checkout_date=" + checkoutDate +
+    "&num_guests=" + numGuests;
 
-        output += "<a class='btn' href='" + bookingUrl + "'>Book This Room</a>";
+output += "<a class='btn' href='" + detailUrl + "'>View Details</a> ";
+output += "<a class='btn' href='" + bookingUrl + "'>Book This Room</a>";
 
         output += "</div>";
     }

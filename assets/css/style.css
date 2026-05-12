@@ -248,3 +248,46 @@ button:hover, .btn:hover {
     font-size: 13px;
     font-weight: bold;
 }
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.room-image-box {
+    border: 1px solid #d5dcff;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f0f3ff;
+}
+
+.room-image-box img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.receipt-box {
+    background: #ffffff;
+    border: 1px solid #d5dcff;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+@media print {
+    .no-print {
+        display: none;
+    }
+
+    body {
+        background: #ffffff;
+    }
+
+    .container {
+        box-shadow: none;
+        margin: 0;
+        width: 100%;
+    }
+}

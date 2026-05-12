@@ -5,6 +5,11 @@ require_once __DIR__ . "/../models/UserModel.php";
 require_once __DIR__ . "/../models/GuestModel.php";
 require_once __DIR__ . "/../models/RoomModel.php";
 require_once __DIR__ . "/../models/BookingModel.php";
+require_once __DIR__ . "/../models/ServiceRequestModel.php";
+require_once __DIR__ . "/../models/ReviewModel.php";
+require_once __DIR__ . "/../models/BillingModel.php";
+
+   //Guest Dashboard
 
 function showGuestDashboard() {
     requireGuest();
@@ -19,8 +24,12 @@ function showGuestDashboard() {
     require __DIR__ . "/../views/guestDashboardView.php";
 }
 
+  // Guest Profile
+
 function showGuestProfile() {
     requireGuest();
+
+    syncGuestLoyaltyPoints($_SESSION["user_id"]);
 
     $guest = findUserById($_SESSION["user_id"]);
     $loyaltyBalance = getGuestLoyaltyBalance($_SESSION["user_id"]);
@@ -242,22 +251,77 @@ function handleGuestPasswordChange() {
     $success = updateGuestPassword($_SESSION["user_id"], $newPasswordHash);
 
     if ($success) {
-        $_SESSION["success"] = "Password changed successfully. Please login again.";
         session_unset();
         session_destroy();
-        header("Location: index.php?route=login");
-        exit();
+
+        session_start();
+        $_SESSION["success"] = "Password changed successfully. Please login again.";
+        redirect("index.php?route=login");
     } else {
         $_SESSION["error"] = "Password change failed.";
         redirect("index.php?route=guest-change-password");
     }
 }
 
-    function showGuestSearchRooms() {
+   //Guest Room Search
+
+function showGuestSearchRooms() {
     requireGuest();
 
     require __DIR__ . "/../views/guestSearchRoomView.php";
+}
+
+function showGuestRoomTypeDetails() {
+    requireGuest();
+
+    if (isset($_GET["room_type_id"])) {
+        $roomTypeId = (int)$_GET["room_type_id"];
+    } else {
+        $roomTypeId = 0;
     }
+
+    if (isset($_GET["checkin_date"])) {
+        $checkinDate = safeInput($_GET["checkin_date"]);
+    } else {
+        $checkinDate = "";
+    }
+
+    if (isset($_GET["checkout_date"])) {
+        $checkoutDate = safeInput($_GET["checkout_date"]);
+    } else {
+        $checkoutDate = "";
+    }
+
+    if (isset($_GET["num_guests"])) {
+        $numGuests = (int)$_GET["num_guests"];
+    } else {
+        $numGuests = 0;
+    }
+
+    if ($roomTypeId <= 0) {
+        $_SESSION["error"] = "Invalid room type.";
+        redirect("index.php?route=guest-search-rooms");
+    }
+
+    $roomType = getRoomTypeDetailsById($roomTypeId);
+
+    if (!$roomType) {
+        $_SESSION["error"] = "Room type not found.";
+        redirect("index.php?route=guest-search-rooms");
+    }
+
+    $images = getRoomTypeImages($roomType["name"]);
+
+    $amenities = json_decode($roomType["amenities"], true);
+
+    if (!is_array($amenities)) {
+        $amenities = array();
+    }
+
+    require __DIR__ . "/../views/guestRoomTypeDetailView.php";
+}
+
+   //Guest Booking
 
 function calculateNights($checkinDate, $checkoutDate) {
     $checkinTime = strtotime($checkinDate);
@@ -441,6 +505,9 @@ function showGuestBookingConfirmation() {
 
     require __DIR__ . "/../views/guestBookingConfirmationView.php";
 }
+
+  // Guest My Bookings
+
 function showGuestMyBookings() {
     requireGuest();
 
@@ -498,5 +565,371 @@ function handleGuestCancelBooking() {
     redirect("index.php?route=guest-my-bookings");
 }
 
+   //Guest Service Requests
+
+function showGuestServiceRequests() {
+    requireGuest();
+
+    $activeStays = getGuestActiveStays($_SESSION["user_id"]);
+    $requests = getGuestServiceRequests($_SESSION["user_id"]);
+
+    require __DIR__ . "/../views/guestServiceRequestView.php";
+}
+
+function handleGuestServiceRequestSubmit() {
+    requireGuest();
+
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        redirect("index.php?route=guest-service-requests");
+    }
+
+    if (isset($_POST["booking_id"])) {
+        $bookingId = (int)$_POST["booking_id"];
+    } else {
+        $bookingId = 0;
+    }
+
+    if (isset($_POST["service_type"])) {
+        $serviceType = safeInput($_POST["service_type"]);
+    } else {
+        $serviceType = "";
+    }
+
+    if (isset($_POST["description"])) {
+        $description = safeInput($_POST["description"]);
+    } else {
+        $description = "";
+    }
+
+    if ($bookingId <= 0 || $serviceType === "" || $description === "") {
+        $_SESSION["error"] = "Booking, service type, and description are required.";
+        redirect("index.php?route=guest-service-requests");
+    }
+
+    if ($serviceType !== "extra_bed" && $serviceType !== "toiletries" && $serviceType !== "laundry" && $serviceType !== "room_service" && $serviceType !== "other") {
+        $_SESSION["error"] = "Invalid service type.";
+        redirect("index.php?route=guest-service-requests");
+    }
+
+    $booking = getGuestActiveBookingById($bookingId, $_SESSION["user_id"]);
+
+    if (!$booking) {
+        $_SESSION["error"] = "Active stay not found. Service request is allowed only during checked-in stay.";
+        redirect("index.php?route=guest-service-requests");
+    }
+
+    $success = createGuestServiceRequest(
+        $bookingId,
+        $_SESSION["user_id"],
+        $booking["room_id"],
+        $serviceType,
+        $description
+    );
+
+    if ($success) {
+        $_SESSION["success"] = "Service request submitted successfully.";
+    } else {
+        $_SESSION["error"] = "Service request submission failed.";
+    }
+
+    redirect("index.php?route=guest-service-requests");
+}
+
+   //Guest Reviews
+
+function showGuestReviews() {
+    requireGuest();
+
+    $reviewItems = getGuestCompletedBookingsForReview($_SESSION["user_id"]);
+
+    require __DIR__ . "/../views/guestReviewView.php";
+}
+
+function handleGuestReviewSubmit() {
+    requireGuest();
+
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        redirect("index.php?route=guest-reviews");
+    }
+
+    if (isset($_POST["booking_id"])) {
+        $bookingId = (int)$_POST["booking_id"];
+    } else {
+        $bookingId = 0;
+    }
+
+    if (isset($_POST["overall_rating"])) {
+        $overallRating = (int)$_POST["overall_rating"];
+    } else {
+        $overallRating = 0;
+    }
+
+    if (isset($_POST["cleanliness_rating"])) {
+        $cleanlinessRating = (int)$_POST["cleanliness_rating"];
+    } else {
+        $cleanlinessRating = 0;
+    }
+
+    if (isset($_POST["service_rating"])) {
+        $serviceRating = (int)$_POST["service_rating"];
+    } else {
+        $serviceRating = 0;
+    }
+
+    if (isset($_POST["review_text"])) {
+        $reviewText = safeInput($_POST["review_text"]);
+    } else {
+        $reviewText = "";
+    }
+
+    if ($bookingId <= 0 || $overallRating < 1 || $overallRating > 5 || $cleanlinessRating < 1 || $cleanlinessRating > 5 || $serviceRating < 1 || $serviceRating > 5 || $reviewText === "") {
+        $_SESSION["error"] = "All review fields are required and ratings must be 1 to 5.";
+        redirect("index.php?route=guest-reviews");
+    }
+
+    if (guestReviewExists($bookingId, $_SESSION["user_id"])) {
+        $_SESSION["error"] = "Review already exists for this booking.";
+        redirect("index.php?route=guest-reviews");
+    }
+
+    $success = createGuestReview($bookingId, $_SESSION["user_id"], $overallRating, $cleanlinessRating, $serviceRating, $reviewText);
+
+    if ($success) {
+        $_SESSION["success"] = "Review submitted successfully.";
+    } else {
+        $_SESSION["error"] = "Review submission failed.";
+    }
+
+    redirect("index.php?route=guest-reviews");
+}
+
+function handleGuestReviewUpdate() {
+    requireGuest();
+
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        redirect("index.php?route=guest-reviews");
+    }
+
+    if (isset($_POST["review_id"])) {
+        $reviewId = (int)$_POST["review_id"];
+    } else {
+        $reviewId = 0;
+    }
+
+    if (isset($_POST["overall_rating"])) {
+        $overallRating = (int)$_POST["overall_rating"];
+    } else {
+        $overallRating = 0;
+    }
+
+    if (isset($_POST["cleanliness_rating"])) {
+        $cleanlinessRating = (int)$_POST["cleanliness_rating"];
+    } else {
+        $cleanlinessRating = 0;
+    }
+
+    if (isset($_POST["service_rating"])) {
+        $serviceRating = (int)$_POST["service_rating"];
+    } else {
+        $serviceRating = 0;
+    }
+
+    if (isset($_POST["review_text"])) {
+        $reviewText = safeInput($_POST["review_text"]);
+    } else {
+        $reviewText = "";
+    }
+
+    if ($reviewId <= 0 || $overallRating < 1 || $overallRating > 5 || $cleanlinessRating < 1 || $cleanlinessRating > 5 || $serviceRating < 1 || $serviceRating > 5 || $reviewText === "") {
+        $_SESSION["error"] = "Invalid review update request.";
+        redirect("index.php?route=guest-reviews");
+    }
+
+    $success = updateGuestReview($reviewId, $_SESSION["user_id"], $overallRating, $cleanlinessRating, $serviceRating, $reviewText);
+
+    if ($success) {
+        $_SESSION["success"] = "Review updated successfully.";
+    } else {
+        $_SESSION["error"] = "Review update failed.";
+    }
+
+    redirect("index.php?route=guest-reviews");
+}
+
+function handleGuestReviewDelete() {
+    requireGuest();
+
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        redirect("index.php?route=guest-reviews");
+    }
+
+    if (isset($_POST["review_id"])) {
+        $reviewId = (int)$_POST["review_id"];
+    } else {
+        $reviewId = 0;
+    }
+
+    if ($reviewId <= 0) {
+        $_SESSION["error"] = "Invalid review.";
+        redirect("index.php?route=guest-reviews");
+    }
+
+    $success = deleteGuestReview($reviewId, $_SESSION["user_id"]);
+
+    if ($success) {
+        $_SESSION["success"] = "Review deleted successfully.";
+    } else {
+        $_SESSION["error"] = "Review delete failed.";
+    }
+
+    redirect("index.php?route=guest-reviews");
+}
+
+   //Guest Billing / Receipt
+
+function showGuestBillingHistory() {
+    requireGuest();
+
+    syncGuestLoyaltyPoints($_SESSION["user_id"]);
+
+    $bills = getGuestBillingHistory($_SESSION["user_id"]);
+    $loyaltyBalance = getGuestLoyaltyBalance($_SESSION["user_id"]);
+
+    require __DIR__ . "/../views/guestBillingHistoryView.php";
+}
+
+function handleGuestRedeemPoints() {
+    requireGuest();
+
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        redirect("index.php?route=guest-billing-history");
+    }
+
+    if (isset($_POST["billing_id"])) {
+        $billingId = (int)$_POST["billing_id"];
+    } else {
+        $billingId = 0;
+    }
+
+    if ($billingId <= 0) {
+        $_SESSION["error"] = "Invalid billing request.";
+        redirect("index.php?route=guest-billing-history");
+    }
+
+    $bill = getGuestBillingForRedeem($billingId, $_SESSION["user_id"]);
+
+    if (!$bill) {
+        $_SESSION["error"] = "Pending bill not found.";
+        redirect("index.php?route=guest-billing-history");
+    }
+
+    if ($bill["discount_amount"] > 0) {
+        $_SESSION["error"] = "Points already redeemed for this bill.";
+        redirect("index.php?route=guest-billing-history");
+    }
+
+    $balance = getGuestLoyaltyBalance($_SESSION["user_id"]);
+
+    if ($balance <= 0) {
+        $_SESSION["error"] = "No loyalty points available.";
+        redirect("index.php?route=guest-billing-history");
+    }
+
+    $discountAmount = $balance;
+
+    if ($discountAmount > $bill["total_amount"]) {
+        $discountAmount = $bill["total_amount"];
+    }
+
+    $newBalance = $balance - $discountAmount;
+
+    $success = redeemGuestPointsForBill(
+        $billingId,
+        $_SESSION["user_id"],
+        $bill["booking_id"],
+        $discountAmount,
+        $newBalance
+    );
+
+    if ($success) {
+        $_SESSION["success"] = "Loyalty points redeemed successfully.";
+    } else {
+        $_SESSION["error"] = "Loyalty point redemption failed.";
+    }
+
+    redirect("index.php?route=guest-billing-history");
+}
+
+function showGuestReceipt() {
+    requireGuest();
+
+    if (isset($_GET["billing_id"])) {
+        $billingId = (int)$_GET["billing_id"];
+    } else {
+        $billingId = 0;
+    }
+
+    if ($billingId <= 0) {
+        $_SESSION["error"] = "Invalid receipt request.";
+        redirect("index.php?route=guest-billing-history");
+    }
+
+    $receipt = getGuestReceiptDetails($billingId, $_SESSION["user_id"]);
+
+    if (!$receipt) {
+        $_SESSION["error"] = "Receipt not found.";
+        redirect("index.php?route=guest-billing-history");
+    }
+
+    require __DIR__ . "/../views/guestReceiptView.php";
+}
+
+function downloadGuestReceipt() {
+    requireGuest();
+
+    if (isset($_GET["billing_id"])) {
+        $billingId = (int)$_GET["billing_id"];
+    } else {
+        $billingId = 0;
+    }
+
+    if ($billingId <= 0) {
+        $_SESSION["error"] = "Invalid receipt download request.";
+        redirect("index.php?route=guest-billing-history");
+    }
+
+    $receipt = getGuestReceiptDetails($billingId, $_SESSION["user_id"]);
+
+    if (!$receipt) {
+        $_SESSION["error"] = "Receipt not found.";
+        redirect("index.php?route=guest-billing-history");
+    }
+
+    $fileName = "receipt_" . $receipt["id"] . ".html";
+
+    header("Content-Type: text/html");
+    header("Content-Disposition: attachment; filename=" . $fileName);
+
+    echo "<html>";
+    echo "<head><title>Receipt</title></head>";
+    echo "<body>";
+    echo "<h2>Hotel Room Booking Receipt</h2>";
+    echo "<p><strong>Bill ID:</strong> " . $receipt["id"] . "</p>";
+    echo "<p><strong>Booking ID:</strong> " . $receipt["booking_id"] . "</p>";
+    echo "<p><strong>Guest:</strong> " . htmlspecialchars($receipt["guest_name"]) . "</p>";
+    echo "<p><strong>Email:</strong> " . htmlspecialchars($receipt["email"]) . "</p>";
+    echo "<p><strong>Room Type:</strong> " . htmlspecialchars($receipt["room_type_name"]) . "</p>";
+    echo "<p><strong>Check-in:</strong> " . $receipt["checkin_date"] . "</p>";
+    echo "<p><strong>Check-out:</strong> " . $receipt["checkout_date"] . "</p>";
+    echo "<p><strong>Base Amount:</strong> " . $receipt["base_amount"] . " BDT</p>";
+    echo "<p><strong>Extras:</strong> " . $receipt["extras_amount"] . " BDT</p>";
+    echo "<p><strong>Discount:</strong> " . $receipt["discount_amount"] . " BDT</p>";
+    echo "<p><strong>Total:</strong> " . $receipt["total_amount"] . " BDT</p>";
+    echo "<p><strong>Payment Status:</strong> " . htmlspecialchars($receipt["payment_status"]) . "</p>";
+    echo "</body>";
+    echo "</html>";
+
+    exit();
+}
 
 ?>

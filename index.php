@@ -119,6 +119,59 @@ case "do-guest-cancel-booking":
     handleGuestCancelBooking();
     break;
 
+    case "guest-service-requests":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestServiceRequests();
+    break;
+
+case "do-guest-service-request":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestServiceRequestSubmit();
+    break;
+
+case "guest-reviews":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestReviews();
+    break;
+
+case "do-guest-submit-review":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestReviewSubmit();
+    break;
+
+case "do-guest-update-review":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestReviewUpdate();
+    break;
+
+case "do-guest-delete-review":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestReviewDelete();
+    break;
+
+case "guest-billing-history":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestBillingHistory();
+    break;
+
+case "do-guest-redeem-points":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestRedeemPoints();
+    break;
+case "guest-room-type-details":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestRoomTypeDetails();
+    break;
+
+case "guest-receipt":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestReceipt();
+    break;
+
+case "guest-download-receipt":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    downloadGuestReceipt();
+    break;
 
     /* =========================
        Receptionist Routes
