@@ -109,6 +109,16 @@ case "guest-booking-confirmation":
     showGuestBookingConfirmation();
     break;
 
+    case "guest-my-bookings":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestMyBookings();
+    break;
+
+case "do-guest-cancel-booking":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestCancelBooking();
+    break;
+
 
     /* =========================
        Receptionist Routes

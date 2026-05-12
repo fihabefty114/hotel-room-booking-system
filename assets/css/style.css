@@ -215,3 +215,36 @@ button:hover, .btn:hover {
 .booking-summary h3 {
     color: #1f5eff;
 }
+
+.wide-container {
+    max-width: 1100px;
+}
+
+.booking-card {
+    background: #ffffff;
+    border: 1px solid #d5dcff;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+
+.booking-card h3 {
+    color: #1f5eff;
+    margin-bottom: 12px;
+}
+
+.booking-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 8px;
+    background: #e1e7ff;
+    color: #1f3fbf;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: bold;
+}

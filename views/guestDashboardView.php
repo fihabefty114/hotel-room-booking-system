@@ -24,8 +24,7 @@
         <a class="feature-card" href="index.php?route=guest-profile">Manage Profile</a>
         <a class="feature-card" href="index.php?route=guest-search-rooms">Search Available Rooms with AJAX</a>        
         <a class="feature-card" href="index.php?route=guest-search-rooms">Book Room</a>
-        <a class="feature-card" href="#">My Bookings - Next phase</a>
-        <a class="feature-card" href="#">Service Requests - Next phase</a>
+<a class="feature-card" href="index.php?route=guest-my-bookings">My Bookings</a>        <a class="feature-card" href="#">Service Requests - Next phase</a>
         <a class="feature-card" href="#">Reviews - Next phase</a>
         <a class="feature-card" href="index.php?route=guest-profile">Loyalty Points</a>
         <a class="feature-card" href="#">Billing History - Next phase</a>

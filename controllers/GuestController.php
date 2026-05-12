@@ -441,6 +441,62 @@ function showGuestBookingConfirmation() {
 
     require __DIR__ . "/../views/guestBookingConfirmationView.php";
 }
+function showGuestMyBookings() {
+    requireGuest();
+
+    $bookings = getGuestBookingsWithDetails($_SESSION["user_id"]);
+
+    require __DIR__ . "/../views/guestMyBookingsView.php";
+}
+
+function handleGuestCancelBooking() {
+    requireGuest();
+
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        redirect("index.php?route=guest-my-bookings");
+    }
+
+    if (isset($_POST["booking_id"])) {
+        $bookingId = (int)$_POST["booking_id"];
+    } else {
+        $bookingId = 0;
+    }
+
+    if ($bookingId <= 0) {
+        $_SESSION["error"] = "Invalid booking.";
+        redirect("index.php?route=guest-my-bookings");
+    }
+
+    $booking = getGuestBookingForCancel($bookingId, $_SESSION["user_id"]);
+
+    if (!$booking) {
+        $_SESSION["error"] = "Booking not found.";
+        redirect("index.php?route=guest-my-bookings");
+    }
+
+    if ($booking["status"] !== "confirmed") {
+        $_SESSION["error"] = "Only confirmed bookings can be cancelled.";
+        redirect("index.php?route=guest-my-bookings");
+    }
+
+    $todayTime = strtotime(date("Y-m-d"));
+    $checkinTime = strtotime($booking["checkin_date"]);
+
+    if ($checkinTime <= $todayTime) {
+        $_SESSION["error"] = "Booking cannot be cancelled on or after check-in date.";
+        redirect("index.php?route=guest-my-bookings");
+    }
+
+    $success = cancelGuestConfirmedBooking($bookingId, $_SESSION["user_id"]);
+
+    if ($success) {
+        $_SESSION["success"] = "Booking cancelled successfully.";
+    } else {
+        $_SESSION["error"] = "Booking cancellation failed.";
+    }
+
+    redirect("index.php?route=guest-my-bookings");
+}
 
 
 ?>
