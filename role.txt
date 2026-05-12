@@ -101,4 +101,12 @@ Redeem points
 View billing history
 ==================================================================================
 Rithy(Receipetion, HouseKeeping)
+Receptionist Module — Phase 1
+Receptionist Dashboard
+Today Check-in List
+Check-in Guest
+Check-out Guest
+Room Status Board with AJAX
+Pending Service Requests
+Update Service Request Status
 

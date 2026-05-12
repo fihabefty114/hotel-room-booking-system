@@ -46,15 +46,8 @@ switch ($route) {
        Ifti / Guest Module
     ========================= */
 
-    case "guest-dashboard":
-        require_once __DIR__ . "/controllers/GuestController.php";
-        showGuestDashboard();
-        break;
+    
 
-    case "guest-profile":
-        require_once __DIR__ . "/controllers/GuestController.php";
-        showGuestProfile();
-        break;
 
     case "guest-search-rooms":
         require_once __DIR__ . "/controllers/GuestController.php";
@@ -64,6 +57,41 @@ switch ($route) {
     case "ajax-search-rooms":
         require_once __DIR__ . "/controllers/GuestAjaxController.php";
         searchAvailableRoomsAjax();
+        break;
+
+        case "guest-dashboard":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        showGuestDashboard();
+        break;
+
+    case "guest-profile":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        showGuestProfile();
+        break;
+
+    case "guest-edit-profile":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        showGuestEditProfile();
+        break;
+
+    case "do-guest-update-profile":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        handleGuestProfileUpdate();
+        break;
+
+    case "do-guest-upload-profile-picture":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        handleGuestProfilePictureUpload();
+        break;
+
+    case "guest-change-password":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        showGuestChangePassword();
+        break;
+
+    case "do-guest-change-password":
+        require_once __DIR__ . "/controllers/GuestController.php";
+        handleGuestPasswordChange();
         break;
 
 
