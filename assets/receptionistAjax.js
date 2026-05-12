@@ -10,6 +10,7 @@ function loadRoomStatus() {
 
                 output += "<table class='data-table'>";
                 output += "<tr>";
+                output += "<th>Room ID</th>";
                 output += "<th>Room Number</th>";
                 output += "<th>Floor</th>";
                 output += "<th>Room Type</th>";
@@ -19,6 +20,7 @@ function loadRoomStatus() {
 
                 for (var i = 0; i < rooms.length; i++) {
                     output += "<tr>";
+                    output += "<td>" + rooms[i].id + "</td>";
                     output += "<td>" + rooms[i].room_number + "</td>";
                     output += "<td>" + rooms[i].floor + "</td>";
                     output += "<td>" + rooms[i].room_type_name + "</td>";

@@ -170,13 +170,13 @@ function processReceptionistServiceRequestUpdate() {
         $status = "";
     }
 
-    if ($status !== "pending" && $status !== "in_progress" && $status !== "completed") {
-        $_SESSION["error"] = "Invalid service request status.";
+    if ($requestId <= 0) {
+        $_SESSION["error"] = "Invalid service request.";
         redirect("index.php?route=receptionist-service-requests");
     }
 
-    if ($requestId <= 0) {
-        $_SESSION["error"] = "Invalid service request.";
+    if ($status !== "pending" && $status !== "in_progress" && $status !== "completed") {
+        $_SESSION["error"] = "Invalid service request status.";
         redirect("index.php?route=receptionist-service-requests");
     }
 
