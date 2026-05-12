@@ -3,6 +3,8 @@
 require_once __DIR__ . "/AuthController.php";
 require_once __DIR__ . "/../models/UserModel.php";
 require_once __DIR__ . "/../models/GuestModel.php";
+require_once __DIR__ . "/../models/RoomModel.php";
+require_once __DIR__ . "/../models/BookingModel.php";
 
 function showGuestDashboard() {
     requireGuest();
@@ -257,7 +259,188 @@ function handleGuestPasswordChange() {
     require __DIR__ . "/../views/guestSearchRoomView.php";
     }
 
+function calculateNights($checkinDate, $checkoutDate) {
+    $checkinTime = strtotime($checkinDate);
+    $checkoutTime = strtotime($checkoutDate);
 
+    $difference = $checkoutTime - $checkinTime;
+    $nights = $difference / (60 * 60 * 24);
+
+    return $nights;
+}
+
+function getBookingPriceInfo($roomTypeId, $checkinDate, $checkoutDate, $numGuests) {
+    $availableRooms = searchAvailableRoomTypes($checkinDate, $checkoutDate, $numGuests);
+
+    $selectedRoom = null;
+
+    foreach ($availableRooms as $room) {
+        if ($room["id"] == $roomTypeId) {
+            $selectedRoom = $room;
+        }
+    }
+
+    return $selectedRoom;
+}
+
+function showGuestBookRoom() {
+    requireGuest();
+
+    if (isset($_GET["room_type_id"])) {
+        $roomTypeId = (int)$_GET["room_type_id"];
+    } else {
+        $roomTypeId = 0;
+    }
+
+    if (isset($_GET["checkin_date"])) {
+        $checkinDate = safeInput($_GET["checkin_date"]);
+    } else {
+        $checkinDate = "";
+    }
+
+    if (isset($_GET["checkout_date"])) {
+        $checkoutDate = safeInput($_GET["checkout_date"]);
+    } else {
+        $checkoutDate = "";
+    }
+
+    if (isset($_GET["num_guests"])) {
+        $numGuests = (int)$_GET["num_guests"];
+    } else {
+        $numGuests = 0;
+    }
+
+    if ($roomTypeId <= 0 || $checkinDate === "" || $checkoutDate === "" || $numGuests <= 0) {
+        $_SESSION["error"] = "Invalid booking request.";
+        redirect("index.php?route=guest-search-rooms");
+    }
+
+    if ($checkoutDate <= $checkinDate) {
+        $_SESSION["error"] = "Check-out date must be after check-in date.";
+        redirect("index.php?route=guest-search-rooms");
+    }
+
+    $nights = calculateNights($checkinDate, $checkoutDate);
+
+    if ($nights <= 0) {
+        $_SESSION["error"] = "Invalid number of nights.";
+        redirect("index.php?route=guest-search-rooms");
+    }
+
+    $selectedRoom = getBookingPriceInfo($roomTypeId, $checkinDate, $checkoutDate, $numGuests);
+
+    if (!$selectedRoom) {
+        $_SESSION["error"] = "Selected room type is not available.";
+        redirect("index.php?route=guest-search-rooms");
+    }
+
+    $pricePerNight = $selectedRoom["display_price"];
+    $totalPrice = $pricePerNight * $nights;
+
+    require __DIR__ . "/../views/guestBookingView.php";
+}
+
+function handleGuestBookingConfirm() {
+    requireGuest();
+
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        redirect("index.php?route=guest-search-rooms");
+    }
+
+    if (isset($_POST["room_type_id"])) {
+        $roomTypeId = (int)$_POST["room_type_id"];
+    } else {
+        $roomTypeId = 0;
+    }
+
+    if (isset($_POST["checkin_date"])) {
+        $checkinDate = safeInput($_POST["checkin_date"]);
+    } else {
+        $checkinDate = "";
+    }
+
+    if (isset($_POST["checkout_date"])) {
+        $checkoutDate = safeInput($_POST["checkout_date"]);
+    } else {
+        $checkoutDate = "";
+    }
+
+    if (isset($_POST["num_guests"])) {
+        $numGuests = (int)$_POST["num_guests"];
+    } else {
+        $numGuests = 0;
+    }
+
+    if ($roomTypeId <= 0 || $checkinDate === "" || $checkoutDate === "" || $numGuests <= 0) {
+        $_SESSION["error"] = "Invalid booking information.";
+        redirect("index.php?route=guest-search-rooms");
+    }
+
+    if ($checkoutDate <= $checkinDate) {
+        $_SESSION["error"] = "Check-out date must be after check-in date.";
+        redirect("index.php?route=guest-search-rooms");
+    }
+
+    $nights = calculateNights($checkinDate, $checkoutDate);
+
+    if ($nights <= 0) {
+        $_SESSION["error"] = "Invalid number of nights.";
+        redirect("index.php?route=guest-search-rooms");
+    }
+
+    $selectedRoom = getBookingPriceInfo($roomTypeId, $checkinDate, $checkoutDate, $numGuests);
+
+    if (!$selectedRoom) {
+        $_SESSION["error"] = "Room is no longer available.";
+        redirect("index.php?route=guest-search-rooms");
+    }
+
+    $pricePerNight = $selectedRoom["display_price"];
+    $totalPrice = $pricePerNight * $nights;
+
+    $bookingId = createGuestBooking(
+        $_SESSION["user_id"],
+        $roomTypeId,
+        $checkinDate,
+        $checkoutDate,
+        $numGuests,
+        $totalPrice
+    );
+
+    if (!$bookingId) {
+        $_SESSION["error"] = "Booking failed. Please try again.";
+        redirect("index.php?route=guest-search-rooms");
+    }
+
+    createBookingBilling($bookingId, $_SESSION["user_id"], $totalPrice, $totalPrice);
+
+    $_SESSION["success"] = "Room booked successfully.";
+    redirect("index.php?route=guest-booking-confirmation&booking_id=" . $bookingId);
+}
+
+function showGuestBookingConfirmation() {
+    requireGuest();
+
+    if (isset($_GET["booking_id"])) {
+        $bookingId = (int)$_GET["booking_id"];
+    } else {
+        $bookingId = 0;
+    }
+
+    if ($bookingId <= 0) {
+        $_SESSION["error"] = "Invalid booking confirmation request.";
+        redirect("index.php?route=guest-dashboard");
+    }
+
+    $booking = getGuestBookingConfirmation($bookingId, $_SESSION["user_id"]);
+
+    if (!$booking) {
+        $_SESSION["error"] = "Booking not found.";
+        redirect("index.php?route=guest-dashboard");
+    }
+
+    require __DIR__ . "/../views/guestBookingConfirmationView.php";
+}
 
 
 ?>

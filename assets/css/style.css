@@ -203,3 +203,15 @@ button:hover, .btn:hover {
     color: #1f5eff;
     margin-bottom: 10px;
 }
+
+.booking-summary {
+    background: #f0f3ff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #d5dcff;
+    margin-bottom: 20px;
+}
+
+.booking-summary h3 {
+    color: #1f5eff;
+}

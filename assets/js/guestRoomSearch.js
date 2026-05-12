@@ -68,9 +68,15 @@ function showRoomResults(rooms, checkinDate, checkoutDate, numGuests) {
         return;
     }
 
+    var nights = calculateNightCount(checkinDate, checkoutDate);
+
     var output = "";
 
     for (var i = 0; i < rooms.length; i++) {
+        var pricePerNight = parseFloat(rooms[i].display_price);
+        var totalPrice = pricePerNight * nights;
+        totalPrice = totalPrice.toFixed(2);
+
         output += "<div class='room-card'>";
 
         output += "<h3>" + rooms[i].name + "</h3>";
@@ -80,14 +86,15 @@ function showRoomResults(rooms, checkinDate, checkoutDate, numGuests) {
 
         if (rooms[i].seasonal_label !== "") {
             output += "<p><strong>Seasonal Pricing:</strong> " + rooms[i].seasonal_label + "</p>";
-            output += "<p><strong>Price per Night:</strong> " + rooms[i].display_price + " BDT</p>";
-        } else {
-            output += "<p><strong>Price per Night:</strong> " + rooms[i].price_per_night + " BDT</p>";
         }
+
+        output += "<p><strong>Price Per Night:</strong> " + pricePerNight + " BDT</p>";
+        output += "<p><strong>Total Nights:</strong> " + nights + "</p>";
+        output += "<p><strong>Estimated Total Price:</strong> " + totalPrice + " BDT</p>";
 
         output += "<p><strong>Amenities:</strong> ";
 
-        if (rooms[i].amenities.length > 0) {
+        if (rooms[i].amenities && rooms[i].amenities.length > 0) {
             for (var j = 0; j < rooms[i].amenities.length; j++) {
                 output += rooms[i].amenities[j];
 
@@ -104,10 +111,26 @@ function showRoomResults(rooms, checkinDate, checkoutDate, numGuests) {
         output += "<p><strong>Selected Dates:</strong> " + checkinDate + " to " + checkoutDate + "</p>";
         output += "<p><strong>Guests:</strong> " + numGuests + "</p>";
 
-        output += "<a class='btn' href='#'>Book This Room - Next Phase</a>";
+        var bookingUrl = "index.php?route=guest-book-room" +
+            "&room_type_id=" + rooms[i].id +
+            "&checkin_date=" + checkinDate +
+            "&checkout_date=" + checkoutDate +
+            "&num_guests=" + numGuests;
+
+        output += "<a class='btn' href='" + bookingUrl + "'>Book This Room</a>";
 
         output += "</div>";
     }
 
     resultBox.innerHTML = output;
+}
+
+function calculateNightCount(checkinDate, checkoutDate) {
+    var checkin = new Date(checkinDate);
+    var checkout = new Date(checkoutDate);
+
+    var difference = checkout.getTime() - checkin.getTime();
+    var nights = difference / (1000 * 60 * 60 * 24);
+
+    return nights;
 }

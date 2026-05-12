@@ -94,6 +94,21 @@ switch ($route) {
         handleGuestPasswordChange();
         break;
 
+        case "guest-book-room":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestBookRoom();
+    break;
+
+case "do-guest-confirm-booking":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    handleGuestBookingConfirm();
+    break;
+
+case "guest-booking-confirmation":
+    require_once __DIR__ . "/controllers/GuestController.php";
+    showGuestBookingConfirmation();
+    break;
+
 
     /* =========================
        Receptionist Routes
