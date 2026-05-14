@@ -53,7 +53,7 @@ function getHousekeepingDashboardStats($staffId) {
 
     mysqli_stmt_close($stmt);
 
-    $sql = "SELECT COUNT(*) AS total FROM housekeeping_tasks 
+    $sql = "SELECT COUNT(*) AS total FROM housekeepin_tasks
             WHERE assigned_to = ? 
             AND status = 'completed' 
             AND DATE(created_at) = CURDATE()";
