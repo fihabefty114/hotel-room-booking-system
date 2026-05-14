@@ -248,6 +248,57 @@ case "guest-download-receipt":
         showHousekeepingDashboard();
         break;
 
+    case "housekeeping-profile":
+        require_once __DIR__ . "/controllers/HousekeepingController.php";
+        showHousekeepingProfile();
+        break;
+
+    case "do-housekeeping-profile-update":
+        require_once __DIR__ . "/controllers/HousekeepingController.php";
+        handleHousekeepingProfileUpdate();
+        break;
+
+    case "housekeeping-tasks":
+        require_once __DIR__ . "/controllers/HousekeepingController.php";
+        showHousekeepingTasks();
+        break;
+
+    case "do-housekeeping-take-task":
+        require_once __DIR__ . "/controllers/HousekeepingController.php";
+        handleHousekeepingTakeTask();
+        break;
+
+    case "do-housekeeping-update-task":
+        require_once __DIR__ . "/controllers/HousekeepingController.php";
+        handleHousekeepingTaskUpdate();
+        break;
+
+    case "housekeeping-room-status":
+        require_once __DIR__ . "/controllers/HousekeepingController.php";
+        showHousekeepingRoomStatusPage();
+        break;
+
+    case "ajax-housekeeping-room-status":
+        require_once __DIR__ . "/controllers/HousekeepingController.php";
+        getHousekeepingRoomStatusAjax();
+        break;
+
+    case "housekeeping-maintenance":
+        require_once __DIR__ . "/controllers/HousekeepingController.php";
+        showHousekeepingMaintenancePage();
+        break;
+
+    case "do-housekeeping-maintenance":
+        require_once __DIR__ . "/controllers/HousekeepingController.php";
+        handleHousekeepingMaintenanceReport();
+        break;
+
+    case "housekeeping-daily-report":
+        require_once __DIR__ . "/controllers/HousekeepingController.php";
+        showHousekeepingDailyReport();
+        break;
+
+
 
     /* =========================
        Admin Routes

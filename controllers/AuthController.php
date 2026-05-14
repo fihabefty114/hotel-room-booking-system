@@ -61,32 +61,20 @@ function requireGuest() {
 }
  
 function redirectByRole($role) {
-
     if ($role === "guest") {
-
         redirect("index.php?route=guest-dashboard");
-
     } else if ($role === "receptionist") {
-
         redirect("index.php?route=receptionist-dashboard");
-
     } else if ($role === "housekeeping") {
-
         redirect("index.php?route=housekeeping-dashboard");
-
     } else if ($role === "admin") {
-
         redirect("index.php?route=admin-dashboard");
-
     } else {
-
         $_SESSION["error"] = "This role dashboard is not implemented yet.";
-
         redirect("index.php?route=login");
-
     }
-
 }
+
  
 function showLoginPage() {
 

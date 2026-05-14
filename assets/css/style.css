@@ -333,3 +333,59 @@ select {
         width: 100%;
     }
 }
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.dashboard-card {
+    background: #f0f3ff;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #d5dcff;
+}
+
+.dashboard-card h3 {
+    margin: 0;
+    font-size: 28px;
+    color: #1f5eff;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    resize: vertical;
+}
+
+small {
+    display: block;
+    margin-top: 5px;
+    color: #555555;
+}
+
+@media print {
+    .no-print {
+        display: none;
+    }
+
+    body {
+        background: #ffffff;
+    }
+
+    .container {
+        box-shadow: none;
+        margin: 0;
+        width: 100%;
+    }
+}
