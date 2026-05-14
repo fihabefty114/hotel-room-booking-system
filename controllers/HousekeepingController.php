@@ -136,12 +136,16 @@ function handleHousekeepingTaskUpdate() {
         $status = "";
     }
 
+    if ($status === "completed") {
+        $status = "done";
+    }
+
     if ($taskId <= 0) {
         $_SESSION["error"] = "Invalid task.";
         redirect("index.php?route=housekeeping-tasks");
     }
 
-    if ($status !== "pending" && $status !== "in_progress" && $status !== "completed") {
+    if ($status !== "pending" && $status !== "in_progress" && $status !== "done") {
         $_SESSION["error"] = "Invalid task status.";
         redirect("index.php?route=housekeeping-tasks");
     }
@@ -156,7 +160,7 @@ function handleHousekeepingTaskUpdate() {
     $success = updateHousekeepingTaskStatus($taskId, $_SESSION["user_id"], $status);
 
     if ($success) {
-        if ($status === "completed") {
+        if ($status === "done") {
             markRoomAvailableAfterCleaning($task["room_id"]);
             $_SESSION["success"] = "Task completed. Room is now available.";
         } else {

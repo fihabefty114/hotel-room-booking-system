@@ -53,10 +53,10 @@ function getHousekeepingDashboardStats($staffId) {
 
     mysqli_stmt_close($stmt);
 
-    $sql = "SELECT COUNT(*) AS total FROM housekeepin_tasks
+    $sql = "SELECT COUNT(*) AS total FROM housekeeping_tasks 
             WHERE assigned_to = ? 
-            AND status = 'completed' 
-            AND DATE(created_at) = CURDATE()";
+            AND status = 'done' 
+            AND DATE(completed_at) = CURDATE()";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $staffId);
     mysqli_stmt_execute($stmt);
@@ -86,7 +86,6 @@ function getHousekeepingDashboardStats($staffId) {
 
     return $stats;
 }
-
 function getHousekeepingProfile($userId) {
     $conn = getConnection();
 
@@ -215,7 +214,7 @@ function getMyHousekeepingTasks($staffId) {
             INNER JOIN rooms ON housekeeping_tasks.room_id = rooms.id
             INNER JOIN room_types ON rooms.room_type_id = room_types.id
             WHERE housekeeping_tasks.assigned_to = ?
-            ORDER BY housekeeping_tasks.created_at DESC";
+            ORDER BY housekeeping_tasks.id DESC";
 
     $stmt = mysqli_prepare($conn, $sql);
 
@@ -266,10 +265,17 @@ function getHousekeepingTaskById($taskId, $staffId) {
 function updateHousekeepingTaskStatus($taskId, $staffId, $status) {
     $conn = getConnection();
 
-    $sql = "UPDATE housekeeping_tasks
-            SET status = ?
-            WHERE id = ?
-            AND assigned_to = ?";
+    if ($status === "done") {
+        $sql = "UPDATE housekeeping_tasks
+                SET status = ?, completed_at = NOW()
+                WHERE id = ?
+                AND assigned_to = ?";
+    } else {
+        $sql = "UPDATE housekeeping_tasks
+                SET status = ?, completed_at = NULL
+                WHERE id = ?
+                AND assigned_to = ?";
+    }
 
     $stmt = mysqli_prepare($conn, $sql);
 
@@ -287,7 +293,6 @@ function updateHousekeepingTaskStatus($taskId, $staffId, $status) {
 
     return $updated;
 }
-
 function markRoomAvailableAfterCleaning($roomId) {
     $conn = getConnection();
 
@@ -371,14 +376,16 @@ function createHousekeepingMaintenanceReport($roomId, $staffId, $issueType, $des
     $conn = getConnection();
 
     $status = "open";
+    $severity = "low";
+    $finalDescription = "Issue Type: " . $issueType . " - " . $description;
 
     $sql = "INSERT INTO maintenance_reports
-            (room_id, reported_by, issue_type, description, status)
+            (room_id, reported_by, description, severity, status)
             VALUES (?, ?, ?, ?, ?)";
 
     $stmt = mysqli_prepare($conn, $sql);
 
-    mysqli_stmt_bind_param($stmt, "iisss", $roomId, $staffId, $issueType, $description, $status);
+    mysqli_stmt_bind_param($stmt, "iisss", $roomId, $staffId, $finalDescription, $severity, $status);
 
     $success = mysqli_stmt_execute($stmt);
 
@@ -429,8 +436,8 @@ function getHousekeepingDailyReport($staffId) {
 
     $sql = "SELECT COUNT(*) AS total FROM housekeeping_tasks
             WHERE assigned_to = ?
-            AND status = 'completed'
-            AND DATE(created_at) = CURDATE()";
+            AND status = 'done'
+            AND DATE(completed_at) = CURDATE()";
 
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $staffId);

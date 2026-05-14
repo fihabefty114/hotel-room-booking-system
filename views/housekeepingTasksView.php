@@ -41,7 +41,11 @@
                     <td><?php echo htmlspecialchars($room["room_number"]); ?></td>
                     <td><?php echo $room["floor"]; ?></td>
                     <td><?php echo htmlspecialchars($room["room_type_name"]); ?></td>
-                    <td><span class="status-badge"><?php echo htmlspecialchars($room["status"]); ?></span></td>
+                    <td>
+                        <span class="status-badge">
+                            <?php echo htmlspecialchars($room["status"]); ?>
+                        </span>
+                    </td>
                     <td>
                         <form action="index.php?route=do-housekeeping-take-task" method="POST">
                             <input type="hidden" name="room_id" value="<?php echo $room["id"]; ?>">
@@ -79,23 +83,27 @@
                     <td><?php echo $task["floor"]; ?></td>
                     <td><?php echo htmlspecialchars($task["room_type_name"]); ?></td>
                     <td><?php echo htmlspecialchars($task["task_type"]); ?></td>
-                    <td><span class="status-badge"><?php echo htmlspecialchars($task["status"]); ?></span></td>
+                    <td>
+                        <span class="status-badge">
+                            <?php echo htmlspecialchars($task["status"]); ?>
+                        </span>
+                    </td>
                     <td><?php echo htmlspecialchars($task["notes"]); ?></td>
                     <td>
-                        <?php if ($task["status"] !== "completed") { ?>
+                        <?php if ($task["status"] !== "done") { ?>
                             <form action="index.php?route=do-housekeeping-update-task" method="POST">
                                 <input type="hidden" name="task_id" value="<?php echo $task["id"]; ?>">
 
                                 <select name="status">
                                     <option value="pending">Pending</option>
                                     <option value="in_progress">In Progress</option>
-                                    <option value="completed">Completed</option>
+                                    <option value="done">Done</option>
                                 </select>
 
                                 <button type="submit">Update</button>
                             </form>
                         <?php } else { ?>
-                            Completed
+                            Done
                         <?php } ?>
                     </td>
                 </tr>
