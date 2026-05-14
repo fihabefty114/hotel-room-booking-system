@@ -104,7 +104,9 @@ function searchReceptionistCheckInBookings($keyword) {
             ORDER BY bookings.checkin_date ASC";
 
     $stmt = mysqli_prepare($conn, $sql);
+
     mysqli_stmt_bind_param($stmt, "ss", $keyword, $keywordLike);
+
     mysqli_stmt_execute($stmt);
 
     $result = mysqli_stmt_get_result($stmt);
@@ -131,7 +133,9 @@ function getAvailableRoomsByRoomType($roomTypeId) {
             ORDER BY room_number ASC";
 
     $stmt = mysqli_prepare($conn, $sql);
+
     mysqli_stmt_bind_param($stmt, "i", $roomTypeId);
+
     mysqli_stmt_execute($stmt);
 
     $result = mysqli_stmt_get_result($stmt);
