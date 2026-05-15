@@ -371,6 +371,20 @@ function handleLogout() {
     exit();
 
 }
+function showAdminRoomStatusAjaxPage() {
+    requireAdmin();
+
+    require __DIR__ . "/../views/adminRoomStatusAjaxView.php";
+}
+
+function getAdminRoomStatusAjax() {
+    requireAdmin();
+
+    $rooms = getAdminRoomStatusAjaxData();
+
+    header("Content-Type: application/json");
+    echo json_encode($rooms);
+}
  
 ?>
  

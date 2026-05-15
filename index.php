@@ -424,7 +424,17 @@ case "guest-download-receipt":
         showAdminReports();
         break;
 
+case "admin-room-status-ajax":
+    require_once __DIR__ . "/controllers/AdminController.php";
+    showAdminRoomStatusAjaxPage();
+    break;
 
+case "ajax-admin-room-status":
+    require_once __DIR__ . "/controllers/AdminController.php";
+    getAdminRoomStatusAjax();
+    break;
+
+    
     /* =========================
        Default Route
     ========================= */
