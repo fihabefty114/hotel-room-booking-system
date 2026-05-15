@@ -67,7 +67,7 @@
             <tr>
                 <th>Report ID</th>
                 <th>Room</th>
-                <th>Issue Type</th>
+                <th>Severity</th>
                 <th>Description</th>
                 <th>Status</th>
                 <th>Reported At</th>
@@ -77,9 +77,25 @@
                 <tr>
                     <td><?php echo $report["id"]; ?></td>
                     <td><?php echo htmlspecialchars($report["room_number"]); ?></td>
-                    <td><?php echo htmlspecialchars($report["issue_type"]); ?></td>
+
+                    <td>
+                        <?php
+                            if (isset($report["severity"])) {
+                                echo htmlspecialchars($report["severity"]);
+                            } else {
+                                echo "low";
+                            }
+                        ?>
+                    </td>
+
                     <td><?php echo htmlspecialchars($report["description"]); ?></td>
-                    <td><span class="status-badge"><?php echo htmlspecialchars($report["status"]); ?></span></td>
+
+                    <td>
+                        <span class="status-badge">
+                            <?php echo htmlspecialchars($report["status"]); ?>
+                        </span>
+                    </td>
+
                     <td><?php echo $report["reported_at"]; ?></td>
                 </tr>
             <?php } ?>

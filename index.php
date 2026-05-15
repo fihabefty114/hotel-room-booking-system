@@ -304,9 +304,124 @@ case "guest-download-receipt":
        Admin Routes
     ========================= */
 
-    case "admin-dashboard":
+   case "admin-dashboard":
         require_once __DIR__ . "/controllers/AdminController.php";
         showAdminDashboard();
+        break;
+
+    case "admin-room-types":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        showAdminRoomTypes();
+        break;
+
+    case "do-admin-create-room-type":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminRoomTypeCreate();
+        break;
+
+    case "do-admin-update-room-type":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminRoomTypeUpdate();
+        break;
+
+    case "do-admin-delete-room-type":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminRoomTypeDelete();
+        break;
+
+    case "admin-rooms":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        showAdminRooms();
+        break;
+
+    case "do-admin-create-room":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminRoomCreate();
+        break;
+
+    case "do-admin-update-room":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminRoomUpdate();
+        break;
+
+    case "do-admin-delete-room":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminRoomDelete();
+        break;
+
+    case "admin-seasonal-pricing":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        showAdminSeasonalPricing();
+        break;
+
+    case "do-admin-create-seasonal-pricing":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminSeasonalPricingCreate();
+        break;
+
+    case "do-admin-update-seasonal-pricing":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminSeasonalPricingUpdate();
+        break;
+
+    case "do-admin-delete-seasonal-pricing":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminSeasonalPricingDelete();
+        break;
+
+    case "admin-staff":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        showAdminStaff();
+        break;
+
+    case "do-admin-create-staff":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminStaffCreate();
+        break;
+
+    case "do-admin-update-staff":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminStaffUpdate();
+        break;
+
+    case "admin-guests":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        showAdminGuests();
+        break;
+
+    case "do-admin-update-guest-status":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminGuestStatusUpdate();
+        break;
+
+    case "admin-bookings":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        showAdminBookings();
+        break;
+
+    case "do-admin-update-booking-status":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminBookingStatusUpdate();
+        break;
+
+    case "admin-reviews":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        showAdminReviews();
+        break;
+
+    case "do-admin-reply-review":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminReviewReply();
+        break;
+
+    case "do-admin-delete-review":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        handleAdminReviewDelete();
+        break;
+
+    case "admin-reports":
+        require_once __DIR__ . "/controllers/AdminController.php";
+        showAdminReports();
         break;
 
 
