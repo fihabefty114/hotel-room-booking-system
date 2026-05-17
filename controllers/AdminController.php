@@ -21,6 +21,64 @@ function makeAmenitiesJson($amenitiesText) {
 
     return json_encode($cleanItems);
 }
+function uploadAdminRoomTypeThumbnail($fileInputName, $oldPath) {
+    if (!isset($_FILES[$fileInputName])) {
+        return $oldPath;
+    }
+
+    if ($_FILES[$fileInputName]["name"] === "") {
+        return $oldPath;
+    }
+
+    if ($_FILES[$fileInputName]["error"] !== 0) {
+        $_SESSION["error"] = "File upload error code: " . $_FILES[$fileInputName]["error"];
+        return $oldPath;
+    }
+
+    $fileName = $_FILES[$fileInputName]["name"];
+    $fileTmpName = $_FILES[$fileInputName]["tmp_name"];
+    $fileSize = $_FILES[$fileInputName]["size"];
+
+    $fileInfo = pathinfo($fileName);
+
+    if (isset($fileInfo["extension"])) {
+        $fileExt = strtolower($fileInfo["extension"]);
+    } else {
+        $_SESSION["error"] = "Invalid image file.";
+        return $oldPath;
+    }
+
+    if ($fileExt !== "jpg" && $fileExt !== "jpeg" && $fileExt !== "png") {
+        $_SESSION["error"] = "Only JPG, JPEG, and PNG images are allowed.";
+        return $oldPath;
+    }
+
+    if ($fileSize > 10485760) {
+        $_SESSION["error"] = "Image size must be less than 10MB.";
+        return $oldPath;
+    }
+
+    $uploadFolder = __DIR__ . "/../assets/images/room_types/";
+
+    if (!is_dir($uploadFolder)) {
+        mkdir($uploadFolder, 0777, true);
+    }
+
+    if (!is_dir($uploadFolder)) {
+        $_SESSION["error"] = "Upload folder could not be created.";
+        return $oldPath;
+    }
+
+    $newFileName = "room_type_" . time() . "_" . rand(1000, 9999) . "." . $fileExt;
+    $destination = $uploadFolder . $newFileName;
+
+    if (move_uploaded_file($fileTmpName, $destination)) {
+        return "assets/images/room_types/" . $newFileName;
+    } else {
+        $_SESSION["error"] = "Image upload failed. Check folder path or permission.";
+        return $oldPath;
+    }
+}
 
 /* Dashboard */
 
@@ -53,8 +111,13 @@ function handleAdminRoomTypeCreate() {
     $description = safeInput($_POST["description"]);
     $pricePerNight = (double)$_POST["price_per_night"];
     $maxCapacity = (int)$_POST["max_capacity"];
-    $thumbnailPath = safeInput($_POST["thumbnail_path"]);
     $amenities = makeAmenitiesJson($_POST["amenities"]);
+
+    $thumbnailPath = uploadAdminRoomTypeThumbnail("thumbnail_photo", "assets/images/room_default.jpg");
+
+    if (isset($_SESSION["error"])) {
+        redirect("index.php?route=admin-room-types");
+    }
 
     if ($name === "" || $description === "" || $pricePerNight <= 0 || $maxCapacity <= 0) {
         $_SESSION["error"] = "Valid room type information is required.";
@@ -84,8 +147,24 @@ function handleAdminRoomTypeUpdate() {
     $description = safeInput($_POST["description"]);
     $pricePerNight = (double)$_POST["price_per_night"];
     $maxCapacity = (int)$_POST["max_capacity"];
-    $thumbnailPath = safeInput($_POST["thumbnail_path"]);
     $amenities = makeAmenitiesJson($_POST["amenities"]);
+
+    if (isset($_POST["old_thumbnail_path"])) {
+        $oldThumbnailPath = safeInput($_POST["old_thumbnail_path"]);
+    } else {
+        $oldThumbnailPath = "assets/images/room_default.jpg";
+    }
+
+    $thumbnailPath = uploadAdminRoomTypeThumbnail("thumbnail_photo", $oldThumbnailPath);
+
+    if (isset($_SESSION["error"])) {
+        redirect("index.php?route=admin-room-types");
+    }
+
+    if ($name === "" || $description === "" || $pricePerNight <= 0 || $maxCapacity <= 0) {
+        $_SESSION["error"] = "Valid room type information is required.";
+        redirect("index.php?route=admin-room-types");
+    }
 
     $success = updateAdminRoomType($id, $name, $description, $pricePerNight, $maxCapacity, $thumbnailPath, $amenities);
 

@@ -47,6 +47,7 @@
         <a class="feature-card" href="index.php?route=admin-bookings">View All Bookings</a>
         <a class="feature-card" href="index.php?route=admin-reviews">Manage Reviews</a>
         <a class="feature-card" href="index.php?route=admin-reports">Reports / Printable Export</a>
+        <a class="feature-card" href="index.php?route=admin-room-status-ajax">Room Status AJAX</a>
     </div>
 
     <div class="nav-links">

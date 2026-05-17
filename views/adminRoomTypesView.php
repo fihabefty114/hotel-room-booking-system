@@ -23,7 +23,7 @@
     <div class="booking-card">
         <h3>Add Room Type</h3>
 
-        <form action="index.php?route=do-admin-create-room-type" method="POST">
+        <form action="index.php?route=do-admin-create-room-type" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label>Name</label>
                 <input type="text" name="name" required>
@@ -45,8 +45,9 @@
             </div>
 
             <div class="form-group">
-                <label>Thumbnail Path</label>
-                <input type="text" name="thumbnail_path" value="assets/images/room_default.jpg">
+                <label>Upload Thumbnail Photo</label>
+                <input type="file" name="thumbnail_photo" accept=".jpg,.jpeg,.png">
+                <small>Allowed: JPG, JPEG, PNG. Maximum size: 2MB.</small>
             </div>
 
             <div class="form-group">
@@ -60,10 +61,26 @@
 
     <h3>Existing Room Types</h3>
 
+    <?php if (count($roomTypes) === 0) { ?>
+        <p>No room type found.</p>
+    <?php } ?>
+
     <?php foreach ($roomTypes as $type) { ?>
         <div class="booking-card">
-            <form action="index.php?route=do-admin-update-room-type" method="POST">
+
+            <h3><?php echo htmlspecialchars($type["name"]); ?></h3>
+
+            <?php if ($type["thumbnail_path"] !== "") { ?>
+                <div class="form-group">
+                    <label>Current Thumbnail</label>
+                    <br>
+                    <img src="<?php echo htmlspecialchars($type["thumbnail_path"]); ?>" alt="Room Thumbnail" style="width:180px; height:110px; object-fit:cover; border-radius:8px; border:1px solid #d5dcff;">
+                </div>
+            <?php } ?>
+
+            <form action="index.php?route=do-admin-update-room-type" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?php echo $type["id"]; ?>">
+                <input type="hidden" name="old_thumbnail_path" value="<?php echo htmlspecialchars($type["thumbnail_path"]); ?>">
 
                 <div class="form-group">
                     <label>Name</label>
@@ -86,8 +103,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Thumbnail Path</label>
-                    <input type="text" name="thumbnail_path" value="<?php echo htmlspecialchars($type["thumbnail_path"]); ?>">
+                    <label>Upload New Thumbnail Photo</label>
+                    <input type="file" name="thumbnail_photo" accept=".jpg,.jpeg,.png">
+                    <small>Leave empty if you do not want to change the current photo.</small>
                 </div>
 
                 <div class="form-group">

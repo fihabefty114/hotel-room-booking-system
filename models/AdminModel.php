@@ -694,5 +694,32 @@ function getAdminReports() {
 
     return $report;
 }
+function getAdminRoomStatusAjaxData() {
+    $conn = getConnection();
+
+    $sql = "SELECT rooms.id, rooms.room_number, rooms.floor, rooms.status, rooms.notes,
+                   room_types.name AS room_type_name
+            FROM rooms
+            INNER JOIN room_types ON rooms.room_type_id = room_types.id
+            ORDER BY rooms.room_number ASC";
+
+    $stmt = mysqli_prepare($conn, $sql);
+
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    $rooms = array();
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rooms[] = $row;
+        }
+    }
+
+    mysqli_stmt_close($stmt);
+
+    return $rooms;
+}
 
 ?>
