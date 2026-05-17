@@ -83,7 +83,7 @@ a:hover { text-decoration: underline; }
 
 /* =============================================================
    ALERT MESSAGES
-   Views: সব view — success/error session messages
+   Views: all view — success/error session messages
    ============================================================= */
 .alert-success {
     display: flex;
@@ -223,7 +223,7 @@ small {
 
 /* =============================================================
    BUTTONS
-   Views: সব view — submit, action, navigation
+   Views: all view — submit, action, navigation
    ============================================================= */
 button,
 .btn {
