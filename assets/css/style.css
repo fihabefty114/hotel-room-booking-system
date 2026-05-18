@@ -1,0 +1,815 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* =============================================================
+   BASE + BODY
+   ============================================================= */
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #f0f4ff;
+    color: #1e1e2e;
+    min-height: 100vh;
+}
+
+/* =============================================================
+   CONTAINER
+   Views: loginView, registerView, guestDashboardView,
+          guestProfileView, guestBookingView,
+          guestSearchRoomView, guestReceiptView
+   ============================================================= */
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 36px;
+    border-radius: 20px;
+    box-shadow:
+        0 0 0 1px rgba(31, 94, 255, 0.06),
+        0 8px 32px rgba(31, 94, 255, 0.08);
+    animation: pageIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* =============================================================
+   WIDE CONTAINER
+   Views: adminDashboardView, adminRoomsView, adminBookingsView,
+          guestMyBookingsView, guestBillingHistoryView,
+          housekeepingDashboardView, receptionistDashboardView
+   ============================================================= */
+.wide-container {
+    max-width: 1140px;
+}
+
+/* =============================================================
+   AUTH CONTAINER
+   Views: loginView.php, registerView.php
+   ============================================================= */
+.auth-container {
+    max-width: 460px;
+    margin-top: 72px;
+    margin-bottom: 72px;
+}
+
+/* Page entry animation */
+@keyframes pageIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.99); }
+    to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* =============================================================
+   TYPOGRAPHY
+   ============================================================= */
+h1, h2, h3 { color: #1e1e2e; font-weight: 600; }
+
+h2 {
+    font-size: 1.55rem;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #eef0ff;
+    letter-spacing: -0.02em;
+}
+
+h3 { font-size: 1.05rem; font-weight: 600; }
+
+p { margin-bottom: 6px; font-size: 0.9rem; color: #4a4a6a; line-height: 1.65; }
+
+a { color: #1f5eff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* =============================================================
+   ALERT MESSAGES
+   Views: all view — success/error session messages
+   ============================================================= */
+.alert-success {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    background: #eafaf1;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid #22c55e;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    animation: slideIn 0.3s ease both;
+}
+
+.alert-error {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    background: #fff1f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    border-left: 4px solid #ef4444;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    animation: slideIn 0.3s ease both;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* =============================================================
+   INFO BOX
+   Views: guestDashboardView, adminDashboardView,
+          housekeepingDashboardView, guestBillingHistoryView,
+          loginView (demo credentials)
+   ============================================================= */
+.info-box {
+    background: linear-gradient(135deg, #f0f4ff 0%, #f8f0ff 100%);
+    border: 1px solid #ddd6fe;
+    border-left: 4px solid #1f5eff;
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.info-box::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 100px; height: 100px;
+    background: rgba(31, 94, 255, 0.05);
+    border-radius: 50%;
+}
+
+.info-box p { margin-bottom: 5px; font-size: 0.88rem; }
+.info-box p:last-child { margin-bottom: 0; }
+
+/* =============================================================
+   FORM ELEMENTS
+   Views: loginView, registerView, guestEditProfileView,
+          guestChangePasswordView, adminRoomsView,
+          adminRoomTypesView, adminStaffView,
+          guestServiceRequestView, guestReviewView
+   ============================================================= */
+.form-group { margin-bottom: 18px; }
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 0.9rem;
+    color: #1e1e2e;
+    background: #fafbff;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+    outline: none;
+    box-sizing: border-box;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+    border-color: #a5b4fc;
+    background: #fff;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #1f5eff;
+    background: #fff;
+    box-shadow:
+        0 0 0 3px rgba(31, 94, 255, 0.12),
+        0 1px 4px rgba(31, 94, 255, 0.08);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 90px;
+    line-height: 1.6;
+}
+
+select { cursor: pointer; }
+
+small {
+    display: block;
+    margin-top: 5px;
+    color: #6b7280;
+    font-size: 0.76rem;
+}
+
+/* =============================================================
+   BUTTONS
+   Views: all view — submit, action, navigation
+   ============================================================= */
+button,
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 10px 22px;
+    background: #1f5eff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 600;
+    font-size: 0.86rem;
+    letter-spacing: 0.01em;
+    transition:
+        background 0.18s ease,
+        transform 0.15s ease,
+        box-shadow 0.18s ease;
+    box-shadow: 0 2px 8px rgba(31, 94, 255, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Ripple shimmer on hover */
+button::after,
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: background 0.2s;
+}
+
+button:hover::after,
+.btn:hover::after {
+    background: rgba(255,255,255,0.1);
+}
+
+button:hover,
+.btn:hover {
+    background: #1645d4;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(31, 94, 255, 0.35);
+}
+
+button:active,
+.btn:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 8px rgba(31, 94, 255, 0.2);
+}
+
+/* Delete / Cancel / Logout */
+.btn-danger,
+button.btn-danger {
+    background: #ef4444;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25);
+}
+
+.btn-danger:hover,
+button.btn-danger:hover {
+    background: #dc2626;
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
+}
+
+/* =============================================================
+   NAV LINKS
+   Views: সব view — bottom navigation row
+   ============================================================= */
+.nav-links {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #eef0ff;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+/* =============================================================
+   DASHBOARD GRID + CARD
+   Views: adminDashboardView, housekeepingDashboardView,
+          receptionistDashboardView
+   ============================================================= */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.dashboard-card {
+    background: #fff;
+    padding: 20px 18px;
+    border-radius: 16px;
+    border: 1px solid #eef0ff;
+    box-shadow: 0 2px 12px rgba(31, 94, 255, 0.06);
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    animation: cardIn 0.4s ease both;
+}
+
+.dashboard-card::before {
+    content: '';
+    position: absolute;
+    bottom: -20px; right: -20px;
+    width: 80px; height: 80px;
+    background: rgba(31, 94, 255, 0.04);
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 32px rgba(31, 94, 255, 0.14);
+}
+
+.dashboard-card:hover::before {
+    transform: scale(1.8);
+}
+
+.dashboard-card h3 {
+    margin: 0 0 4px 0;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1f5eff;
+    letter-spacing: -0.03em;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.dashboard-card p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================================
+   FEATURE GRID + CARD
+   Views: guestDashboardView, adminDashboardView,
+          housekeepingDashboardView, receptionistDashboardView
+   ============================================================= */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.feature-card {
+    display: flex;
+    align-items: center;
+    padding: 18px 20px;
+    background: #f8f9ff;
+    border: 1.5px solid #e8eaff;
+    border-radius: 14px;
+    text-decoration: none;
+    color: #1e1e2e;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    gap: 12px;
+}
+
+/* Animated left accent bar */
+.feature-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: #1f5eff;
+    border-radius: 3px 0 0 3px;
+    transform: scaleY(0);
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Arrow icon */
+.feature-card::after {
+    content: '→';
+    margin-left: auto;
+    font-size: 1rem;
+    color: #1f5eff;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.feature-card:hover {
+    background: #eef1ff;
+    border-color: #a5b4fc;
+    transform: translateY(-2px) translateX(2px);
+    box-shadow: 0 6px 18px rgba(31, 94, 255, 0.1);
+    color: #1e1e2e;
+    text-decoration: none;
+}
+
+.feature-card:hover::before { transform: scaleY(1); }
+.feature-card:hover::after  { opacity: 1; transform: translateX(0); }
+
+/* =============================================================
+   BOOKING CARD
+   Views: guestMyBookingsView, adminBookingsView,
+          adminRoomsView, adminRoomTypesView,
+          adminStaffView, guestReviewView,
+          guestServiceRequestView, housekeepingTasksView
+   ============================================================= */
+.booking-card {
+    background: #fff;
+    border: 1.5px solid #eef0ff;
+    border-radius: 16px;
+    padding: 22px 26px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 12px rgba(31, 94, 255, 0.05);
+    transition:
+        box-shadow 0.22s ease,
+        transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.2s ease;
+    position: relative;
+}
+
+.booking-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #1f5eff, #7c3aed);
+    border-radius: 16px 16px 0 0;
+    opacity: 0;
+    transition: opacity 0.22s ease;
+}
+
+.booking-card:hover {
+    box-shadow: 0 8px 28px rgba(31, 94, 255, 0.12);
+    transform: translateY(-3px);
+    border-color: #c7d2fe;
+}
+
+.booking-card:hover::before { opacity: 1; }
+
+.booking-card h3 {
+    color: #1f5eff;
+    margin-bottom: 14px;
+    font-size: 1rem;
+    border-bottom: 1px solid #eef0ff;
+    padding-bottom: 12px;
+}
+
+/* =============================================================
+   BOOKING GRID
+   Views: guestMyBookingsView, adminBookingsView
+   ============================================================= */
+.booking-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+/* =============================================================
+   BOOKING SUMMARY
+   Views: guestBookingView.php — confirm করার আগে summary
+   ============================================================= */
+.booking-summary {
+    background: linear-gradient(135deg, #f0f4ff, #f5f0ff);
+    padding: 24px;
+    border-radius: 16px;
+    border: 1.5px solid #ddd6fe;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.booking-summary::after {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 120px; height: 120px;
+    background: rgba(124, 58, 237, 0.06);
+    border-radius: 50%;
+}
+
+.booking-summary h3 {
+    color: #1f5eff;
+    margin-bottom: 14px;
+    border-bottom: 1px solid #ddd6fe;
+    padding-bottom: 12px;
+}
+
+/* =============================================================
+   SEARCH BOX
+   Views: guestSearchRoomView.php
+   ============================================================= */
+.search-box {
+    background: #f8f9ff;
+    padding: 22px 24px;
+    border-radius: 16px;
+    border: 1.5px solid #e8eaff;
+    margin-bottom: 24px;
+    box-shadow: inset 0 1px 3px rgba(31, 94, 255, 0.04);
+}
+
+/* =============================================================
+   ROOM CARD
+   Views: guestSearchRoomView (AJAX — guestRoomSearch.js)
+   ============================================================= */
+.room-card {
+    background: #fff;
+    border: 1.5px solid #e8eaff;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: box-shadow 0.22s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.room-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #1f5eff, #06b6d4);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.room-card:hover {
+    box-shadow: 0 8px 28px rgba(31, 94, 255, 0.11);
+    transform: translateY(-3px);
+}
+
+.room-card:hover::after { transform: scaleX(1); }
+
+.room-card h3 {
+    color: #1f5eff;
+    margin-bottom: 10px;
+}
+
+/* =============================================================
+   PROFILE LAYOUT
+   Views: guestProfileView.php
+   ============================================================= */
+.profile-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+/* Profile picture বাম কলাম */
+.profile-picture-box {
+    background: linear-gradient(160deg, #f0f4ff, #f5f0ff);
+    border: 1.5px solid #ddd6fe;
+    padding: 22px;
+    border-radius: 18px;
+    text-align: center;
+}
+
+/* Profile info ডান কলাম */
+.profile-info-box {
+    background: #fff;
+    padding: 22px;
+    border: 1.5px solid #eef0ff;
+    border-radius: 18px;
+    box-shadow: 0 2px 12px rgba(31, 94, 255, 0.05);
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    display: block;
+    margin: 0 auto 16px;
+    box-shadow:
+        0 0 0 3px #1f5eff,
+        0 8px 24px rgba(31, 94, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-picture:hover {
+    transform: scale(1.04);
+    box-shadow:
+        0 0 0 3px #1f5eff,
+        0 14px 32px rgba(31, 94, 255, 0.28);
+}
+
+/* Profile picture না থাকলে placeholder */
+.no-profile-picture {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, #c7d2fe, #ddd6fe);
+    color: #4338ca;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+/* =============================================================
+   DATA TABLE
+   Views: guestProfileView (loyalty history),
+          guestBillingHistoryView, adminBookingsView,
+          adminGuestsView, adminReviewsView,
+          adminReportsView, housekeepingDailyReportView
+   ============================================================= */
+.data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 22px;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow:
+        0 0 0 1px rgba(31, 94, 255, 0.08),
+        0 4px 16px rgba(31, 94, 255, 0.06);
+    font-size: 0.87rem;
+}
+
+.data-table th {
+    background: #1f5eff;
+    color: #fff;
+    padding: 13px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.76rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.data-table th:first-child { border-radius: 0; }
+.data-table th:last-child  { border-radius: 0; }
+
+.data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f2ff;
+    color: #374151;
+    vertical-align: middle;
+    transition: background 0.15s ease;
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+
+/* Alternate row */
+.data-table tr:nth-child(even) td { background: #fafbff; }
+
+/* Row hover highlight */
+.data-table tr:not(:first-child):hover td {
+    background: #eef1ff;
+    cursor: default;
+}
+
+/* =============================================================
+   STATUS BADGE
+   Views: guestMyBookingsView, adminBookingsView,
+          guestBillingHistoryView, housekeepingTasksView
+   ============================================================= */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #e0e7ff;
+    color: #3730a3;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* =============================================================
+   IMAGE GRID + ROOM IMAGE BOX
+   Views: guestRoomTypeDetailView.php
+   ============================================================= */
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.room-image-box {
+    border: 1.5px solid #e8eaff;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #f0f4ff;
+    position: relative;
+}
+
+.room-image-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(31, 94, 255, 0);
+    transition: background 0.25s ease;
+    border-radius: 12px;
+}
+
+.room-image-box:hover::after {
+    background: rgba(31, 94, 255, 0.08);
+}
+
+.room-image-box img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.room-image-box:hover img { transform: scale(1.06); }
+
+/* =============================================================
+   RECEIPT BOX
+   Views: guestReceiptView.php
+   ============================================================= */
+.receipt-box {
+    background: #fff;
+    border: 1.5px solid #e8eaff;
+    border-radius: 16px;
+    padding: 26px;
+    box-shadow: 0 4px 20px rgba(31, 94, 255, 0.07);
+}
+
+/* =============================================================
+   FEATURE LIST
+   Views: guestRoomTypeDetailView.php — amenities list
+   ============================================================= */
+.feature-list li { margin-bottom: 8px; font-size: 0.9rem; color: #374151; }
+
+/* =============================================================
+   RESPONSIVE
+   ============================================================= */
+@media screen and (max-width: 960px) {
+    .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+    .feature-grid   { grid-template-columns: 1fr; }
+    .profile-layout { grid-template-columns: 1fr; }
+}
+
+@media screen and (max-width: 600px) {
+    .container { padding: 22px 18px; }
+    h2 { font-size: 1.3rem; }
+    .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+    .booking-grid   { grid-template-columns: 1fr; }
+    .image-grid     { grid-template-columns: repeat(2, 1fr); }
+    .data-table     { font-size: 0.8rem; display: block; overflow-x: auto; }
+}
+
+/* =============================================================
+   PRINT
+   Views: guestReceiptView, adminReportsView,
+          housekeepingDailyReportView
+   ============================================================= */
+@media print {
+    .no-print { display: none; }
+    body { background: #fff; }
+    .container {
+        box-shadow: none;
+        margin: 0;
+        width: 100%;
+        border-radius: 0;
+    }
+}
