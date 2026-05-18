@@ -11,7 +11,7 @@
 
     <h2>Search Available Rooms</h2>
 
-    <p>Enter your stay information. Result will be shown without page reload using AJAX.</p>
+    <p>Enter your stay information</p>
 
     <div class="search-box">
         <div class="form-group">

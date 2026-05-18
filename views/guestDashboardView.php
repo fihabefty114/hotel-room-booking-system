@@ -22,7 +22,7 @@
 
     <div class="feature-grid">
         <a class="feature-card" href="index.php?route=guest-profile">Manage Profile</a>
-        <a class="feature-card" href="index.php?route=guest-search-rooms">Search Available Rooms with AJAX</a>        
+        <a class="feature-card" href="index.php?route=guest-search-rooms">Search Available Rooms</a>        
         <a class="feature-card" href="index.php?route=guest-search-rooms">Book Room</a>
         <a class="feature-card" href="index.php?route=guest-my-bookings">My Bookings</a>  
         <a class="feature-card" href="index.php?route=guest-service-requests">Service Requests</a>

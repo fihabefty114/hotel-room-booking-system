@@ -11,7 +11,6 @@
 
     <h2>Room Status Board</h2>
 
-    <p>This room status board loads using AJAX without full page reload.</p>
 
     <button type="button" onclick="loadRoomStatus()">Refresh Room Status</button>
 

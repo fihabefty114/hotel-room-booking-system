@@ -59,7 +59,7 @@
     <div class="feature-grid">
         <a class="feature-card" href="index.php?route=housekeeping-profile">Manage Profile</a>
         <a class="feature-card" href="index.php?route=housekeeping-tasks">Cleaning Tasks</a>
-        <a class="feature-card" href="index.php?route=housekeeping-room-status">Room Status Board AJAX</a>
+        <a class="feature-card" href="index.php?route=housekeeping-room-status">Room Status Board</a>
         <a class="feature-card" href="index.php?route=housekeeping-maintenance">Maintenance Reports</a>
         <a class="feature-card" href="index.php?route=housekeeping-daily-report">Daily Report</a>
     </div>

@@ -64,7 +64,7 @@
         <a class="feature-card" href="index.php?route=receptionist-check-out">Check Out Guest</a>
         <a class="feature-card" href="index.php?route=receptionist-payments">Process Payments</a>
         <a class="feature-card" href="index.php?route=receptionist-service-requests">Manage Service Requests</a>
-        <a class="feature-card" href="index.php?route=receptionist-room-status">Room Status Board AJAX</a>
+        <a class="feature-card" href="index.php?route=receptionist-room-status">Room Status Board</a>
         <a class="feature-card" href="index.php?route=receptionist-daily-report">Daily Report</a>
     </div>
 

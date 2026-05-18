@@ -45,11 +45,7 @@
 
     <hr>
 
-    <div class="info-box">
-        <h3>Demo Guest Login</h3>
-        <p>Email: guest@gmail.com</p>
-        <p>Password: guest123</p>
-    </div>
+   
 
 </div>
 
