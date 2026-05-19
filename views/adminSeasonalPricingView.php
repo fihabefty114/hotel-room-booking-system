@@ -1,3 +1,13 @@
+<?php
+if (!isset($roomTypes)) {
+    $roomTypes = array();
+}
+
+if (!isset($pricingList)) {
+    $pricingList = array();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,34 +33,38 @@
     <div class="booking-card">
         <h3>Add Seasonal Pricing</h3>
 
-        <form action="index.php?route=do-admin-create-seasonal-pricing" method="POST">
+        <form id="createSeasonalPricingForm" action="index.php?route=do-admin-create-seasonal-pricing" method="POST" novalidate>
             <div class="form-group">
                 <label>Room Type</label>
-                <select name="room_type_id" required>
+                <select name="room_type_id">
+                    <option value="">Select Room Type</option>
+
                     <?php foreach ($roomTypes as $type) { ?>
-                        <option value="<?php echo $type["id"]; ?>"><?php echo htmlspecialchars($type["name"]); ?></option>
+                        <option value="<?php echo htmlspecialchars($type["id"]); ?>">
+                            <?php echo htmlspecialchars($type["name"]); ?>
+                        </option>
                     <?php } ?>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Label</label>
-                <input type="text" name="label" required>
+                <input type="text" name="label">
             </div>
 
             <div class="form-group">
                 <label>Start Date</label>
-                <input type="date" name="start_date" required>
+                <input type="date" name="start_date">
             </div>
 
             <div class="form-group">
                 <label>End Date</label>
-                <input type="date" name="end_date" required>
+                <input type="date" name="end_date">
             </div>
 
             <div class="form-group">
                 <label>Price Per Night</label>
-                <input type="number" name="price_per_night" min="1" required>
+                <input type="number" name="price_per_night" min="1">
             </div>
 
             <button type="submit">Add Pricing</button>
@@ -61,14 +75,17 @@
 
     <?php foreach ($pricingList as $item) { ?>
         <div class="booking-card">
-            <form action="index.php?route=do-admin-update-seasonal-pricing" method="POST">
-                <input type="hidden" name="id" value="<?php echo $item["id"]; ?>">
+            <form class="updateSeasonalPricingForm" action="index.php?route=do-admin-update-seasonal-pricing" method="POST" novalidate>
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars($item["id"]); ?>">
 
                 <div class="form-group">
                     <label>Room Type</label>
                     <select name="room_type_id">
+                        <option value="">Select Room Type</option>
+
                         <?php foreach ($roomTypes as $type) { ?>
-                            <option value="<?php echo $type["id"]; ?>" <?php if ($type["id"] == $item["room_type_id"]) { echo "selected"; } ?>>
+                            <option value="<?php echo htmlspecialchars($type["id"]); ?>" 
+                                <?php if ($type["id"] == $item["room_type_id"]) { echo "selected"; } ?>>
                                 <?php echo htmlspecialchars($type["name"]); ?>
                             </option>
                         <?php } ?>
@@ -77,29 +94,29 @@
 
                 <div class="form-group">
                     <label>Label</label>
-                    <input type="text" name="label" value="<?php echo htmlspecialchars($item["label"]); ?>" required>
+                    <input type="text" name="label" value="<?php echo htmlspecialchars($item["label"]); ?>">
                 </div>
 
                 <div class="form-group">
                     <label>Start Date</label>
-                    <input type="date" name="start_date" value="<?php echo $item["start_date"]; ?>" required>
+                    <input type="date" name="start_date" value="<?php echo htmlspecialchars($item["start_date"]); ?>">
                 </div>
 
                 <div class="form-group">
                     <label>End Date</label>
-                    <input type="date" name="end_date" value="<?php echo $item["end_date"]; ?>" required>
+                    <input type="date" name="end_date" value="<?php echo htmlspecialchars($item["end_date"]); ?>">
                 </div>
 
                 <div class="form-group">
                     <label>Price Per Night</label>
-                    <input type="number" name="price_per_night" value="<?php echo $item["price_per_night"]; ?>" required>
+                    <input type="number" name="price_per_night" min="1" value="<?php echo htmlspecialchars($item["price_per_night"]); ?>">
                 </div>
 
                 <button type="submit">Update</button>
             </form>
 
             <form action="index.php?route=do-admin-delete-seasonal-pricing" method="POST" onsubmit="return confirm('Delete pricing?');">
-                <input type="hidden" name="id" value="<?php echo $item["id"]; ?>">
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars($item["id"]); ?>">
                 <button type="submit" class="btn-danger">Delete</button>
             </form>
         </div>
@@ -110,6 +127,98 @@
     </div>
 
 </div>
+
+<script>
+document.getElementById("createSeasonalPricingForm").addEventListener("submit", function(event) {
+    var roomTypeId = this.querySelector("[name='room_type_id']").value.trim();
+    var label = this.querySelector("[name='label']").value.trim();
+    var startDate = this.querySelector("[name='start_date']").value.trim();
+    var endDate = this.querySelector("[name='end_date']").value.trim();
+    var pricePerNight = this.querySelector("[name='price_per_night']").value.trim();
+
+    if (roomTypeId === "" || label === "" || startDate === "" || endDate === "" || pricePerNight === "") {
+        event.preventDefault();
+        alert("All seasonal pricing fields are required.");
+        return;
+    }
+
+    if (!isValidDate(startDate)) {
+        event.preventDefault();
+        alert("Start date is invalid.");
+        return;
+    }
+
+    if (!isValidDate(endDate)) {
+        event.preventDefault();
+        alert("End date is invalid.");
+        return;
+    }
+
+    if (endDate <= startDate) {
+        event.preventDefault();
+        alert("End date must be after start date.");
+        return;
+    }
+
+    if (isNaN(pricePerNight) || Number(pricePerNight) <= 0) {
+        event.preventDefault();
+        alert("Price per night must be greater than 0.");
+        return;
+    }
+});
+
+var updateForms = document.querySelectorAll(".updateSeasonalPricingForm");
+
+updateForms.forEach(function(form) {
+    form.addEventListener("submit", function(event) {
+        var roomTypeId = form.querySelector("[name='room_type_id']").value.trim();
+        var label = form.querySelector("[name='label']").value.trim();
+        var startDate = form.querySelector("[name='start_date']").value.trim();
+        var endDate = form.querySelector("[name='end_date']").value.trim();
+        var pricePerNight = form.querySelector("[name='price_per_night']").value.trim();
+
+        if (roomTypeId === "" || label === "" || startDate === "" || endDate === "" || pricePerNight === "") {
+            event.preventDefault();
+            alert("All update fields are required.");
+            return;
+        }
+
+        if (!isValidDate(startDate)) {
+            event.preventDefault();
+            alert("Start date is invalid.");
+            return;
+        }
+
+        if (!isValidDate(endDate)) {
+            event.preventDefault();
+            alert("End date is invalid.");
+            return;
+        }
+
+        if (endDate <= startDate) {
+            event.preventDefault();
+            alert("End date must be after start date.");
+            return;
+        }
+
+        if (isNaN(pricePerNight) || Number(pricePerNight) <= 0) {
+            event.preventDefault();
+            alert("Price per night must be greater than 0.");
+            return;
+        }
+    });
+});
+
+function isValidDate(value) {
+    if (value === "") {
+        return false;
+    }
+
+    var date = new Date(value);
+
+    return !isNaN(date.getTime());
+}
+</script>
 
 </body>
 </html>

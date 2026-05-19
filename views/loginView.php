@@ -25,10 +25,13 @@
         <?php unset($_SESSION["error"]); ?>
     <?php } ?>
 
-    <form action="index.php?route=do-login" method="POST">
+    <form id="loginForm" action="index.php?route=do-login" method="POST" novalidate>
+
+        <div id="loginJsError" class="alert-error" style="display:none;"></div>
+
         <div class="form-group">
             <label>Email</label>
-            <input type="email" name="email" >
+            <input type="text" name="email">
         </div>
 
         <div class="form-group">
@@ -45,9 +48,45 @@
 
     <hr>
 
-   
-
 </div>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+
+
+    var email = this.querySelector("[name='email']").value.trim();
+    var password = this.querySelector("[name='password']").value.trim();
+    var errorBox = document.getElementById("loginJsError");
+
+    errorBox.style.display = "none";
+    errorBox.innerHTML = "";
+
+    if (email === "" || password === "") {
+        event.preventDefault();
+
+        alert("Empty field found");
+
+        errorBox.style.display = "block";
+        errorBox.innerHTML = "Email and password are required.";
+        return;
+    }
+
+    if (!isValidEmail(email)) {
+        event.preventDefault();
+
+        alert("Invalid email");
+
+        errorBox.style.display = "block";
+        errorBox.innerHTML = "Please enter a valid email address.";
+        return;
+    }
+});
+
+function isValidEmail(email) {
+    var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return pattern.test(email);
+}
+</script>
 
 </body>
 </html>

@@ -24,12 +24,12 @@
         <?php unset($_SESSION["error"]); ?>
     <?php } ?>
 
-    <form action="index.php" method="GET">
+    <form id="checkInSearchForm" action="index.php" method="GET" novalidate>
         <input type="hidden" name="route" value="receptionist-check-in">
 
         <div class="form-group">
             <label>Search by Booking ID or Guest Name</label>
-            <input type="text" name="keyword" value="<?php echo htmlspecialchars($keyword); ?>" required>
+            <input type="text" name="keyword" value="<?php echo htmlspecialchars($keyword); ?>">
         </div>
 
         <button type="submit">Search</button>
@@ -66,12 +66,14 @@
 
                 <?php if (count($availableRooms) > 0) { ?>
 
-                    <form action="index.php?route=do-receptionist-check-in" method="POST">
+                    <form class="checkInConfirmForm" action="index.php?route=do-receptionist-check-in" method="POST" novalidate>
                         <input type="hidden" name="booking_id" value="<?php echo $booking["id"]; ?>">
 
                         <div class="form-group">
                             <label>Assign Available Room</label>
-                            <select name="room_id" required>
+                            <select name="room_id">
+                                <option value="">Select Room</option>
+
                                 <?php foreach ($availableRooms as $room) { ?>
                                     <option value="<?php echo $room["id"]; ?>">
                                         Room <?php echo htmlspecialchars($room["room_number"]); ?>
@@ -104,6 +106,32 @@
     </div>
 
 </div>
+
+<script>
+document.getElementById("checkInSearchForm").addEventListener("submit", function(event) {
+    var keyword = this.querySelector("[name='keyword']").value.trim();
+
+    if (keyword === "") {
+        event.preventDefault();
+        alert("Please enter Booking ID or Guest Name.");
+        return;
+    }
+});
+
+var checkInForms = document.querySelectorAll(".checkInConfirmForm");
+
+checkInForms.forEach(function(form) {
+    form.addEventListener("submit", function(event) {
+        var roomId = form.querySelector("[name='room_id']").value.trim();
+
+        if (roomId === "") {
+            event.preventDefault();
+            alert("Please select an available room before check-in.");
+            return;
+        }
+    });
+});
+</script>
 
 </body>
 </html>

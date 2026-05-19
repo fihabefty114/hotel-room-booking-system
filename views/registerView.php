@@ -45,20 +45,20 @@
         }
     ?>
 
-    <form action="index.php?route=do-register" method="POST">
+    <form id="registerForm" action="index.php?route=do-register" method="POST" novalidate>
         <div class="form-group">
             <label>Name</label>
-            <input type="text" name="name" value="<?php echo $oldName; ?>" >
+            <input type="text" name="name" value="<?php echo $oldName; ?>">
         </div>
 
         <div class="form-group">
             <label>Email</label>
-            <input type="email" name="email" value="<?php echo $oldEmail; ?>" >
+            <input type="text" name="email" value="<?php echo $oldEmail; ?>">
         </div>
 
         <div class="form-group">
             <label>Phone</label>
-            <input type="text" name="phone" value="<?php echo $oldPhone; ?>" >
+            <input type="text" name="phone" value="<?php echo $oldPhone; ?>">
         </div>
 
         <div class="form-group">
@@ -73,12 +73,12 @@
 
         <div class="form-group">
             <label>Password</label>
-            <input type="password" name="password" >
+            <input type="password" name="password">
         </div>
 
         <div class="form-group">
             <label>Confirm Password</label>
-            <input type="password" name="confirm_password" >
+            <input type="password" name="confirm_password">
         </div>
 
         <button type="submit">Register</button>
@@ -90,5 +90,55 @@
 
 </div>
 
+<script>
+document.getElementById("registerForm").addEventListener("submit", function(event) {
+    var name = this.querySelector("[name='name']").value.trim();
+    var email = this.querySelector("[name='email']").value.trim();
+    var phone = this.querySelector("[name='phone']").value.trim();
+    var nationality = this.querySelector("[name='nationality']").value.trim();
+    var idNumber = this.querySelector("[name='id_number']").value.trim();
+    var password = this.querySelector("[name='password']").value.trim();
+    var confirmPassword = this.querySelector("[name='confirm_password']").value.trim();
+
+    if (
+        name === "" ||
+        email === "" ||
+        phone === "" ||
+        nationality === "" ||
+        idNumber === "" ||
+        password === "" ||
+        confirmPassword === ""
+    ) {
+        event.preventDefault();
+        alert("All fields are required.");
+        return;
+    }
+
+    if (!isValidEmail(email)) {
+        event.preventDefault();
+        alert("Please enter a valid email address.");
+        return;
+    }
+
+    if (password.length < 6) {
+        event.preventDefault();
+        alert("Password must be at least 6 characters.");
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        event.preventDefault();
+        alert("Password and confirm password do not match.");
+        return;
+    }
+});
+
+function isValidEmail(email) {
+    var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return pattern.test(email);
+}
+</script>
+
 </body>
 </html>
+

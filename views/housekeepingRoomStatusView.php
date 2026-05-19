@@ -3,14 +3,12 @@
 <head>
     <title>Housekeeping Room Status</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <script src="assets/js/housekeepingAjax.js"></script>
 </head>
-<body onload="loadHousekeepingRoomStatus()">
+<body>
 
 <div class="container wide-container">
 
     <h2>Room Status Board</h2>
-
 
     <button type="button" onclick="loadHousekeepingRoomStatus()">Refresh Room Status</button>
 
@@ -23,6 +21,14 @@
     </div>
 
 </div>
+
+<script src="assets/js/housekeepingAjax.js?v=1"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    loadHousekeepingRoomStatus();
+});
+</script>
 
 </body>
 </html>
