@@ -113,7 +113,7 @@ button:hover, .btn:hover {
 
 /* =============================================================
    NAV LINKS
-   Views: সব view — bottom navigation row
+   Views: all view — bottom navigation row
    ============================================================= */
 .nav-links {
     margin-top: 20px;
@@ -321,7 +321,7 @@ button:hover, .btn:hover {
 }
 
 .booking-card h3 {
-    color: #dc2626;
+    color: #d46767;
     margin-bottom: 12px;
 }
 

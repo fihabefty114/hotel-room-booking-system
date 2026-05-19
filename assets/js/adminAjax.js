@@ -39,7 +39,7 @@ function loadAdminRoomStatus() {
 
                 document.getElementById("adminRoomStatusResult").innerHTML = output;
             } else {
-                document.getElementById("adminRoomStatusResult").innerHTML = "<p>AJAX request failed.</p>";
+                document.getElementById("adminRoomStatusResult").innerHTML = "<p>Request failed.</p>";
             }
         }
     };

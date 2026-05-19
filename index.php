@@ -13,6 +13,7 @@ switch ($route) {
     /* =========================
        Auth Routes
        Login / Register / Logout
+       ifty
     ========================= */
 
     case "login":
@@ -43,7 +44,7 @@ switch ($route) {
 
     /* =========================
        Guest Routes
-       Ifti / Guest Module
+       Ifty / Guest Module
     ========================= */
 
     
@@ -175,7 +176,7 @@ case "guest-download-receipt":
 
     /* =========================
        Receptionist Routes
-       Groupmate / Receptionist Module
+       Rithy / Receptionist Module
     ========================= */
 
     case "receptionist-dashboard":
@@ -241,6 +242,7 @@ case "guest-download-receipt":
 
     /* =========================
        Housekeeping Routes
+       Rithy
     ========================= */
 
     case "housekeeping-dashboard":
@@ -302,6 +304,7 @@ case "guest-download-receipt":
 
     /* =========================
        Admin Routes
+       Ifty
     ========================= */
 
    case "admin-dashboard":

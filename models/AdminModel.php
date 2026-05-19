@@ -101,9 +101,8 @@ function getAdminDashboardStats() {
     return $stats;
 }
 
-/* =========================
-   Room Types
-========================= */
+
+   //Room Types
 
 function getAdminRoomTypes() {
     $conn = getConnection();
@@ -184,9 +183,8 @@ function deleteAdminRoomType($id) {
     return $success;
 }
 
-/* =========================
-   Rooms
-========================= */
+
+   //Rooms
 
 function getAdminRooms() {
     $conn = getConnection();
@@ -271,9 +269,8 @@ function deleteAdminRoom($id) {
     return $success;
 }
 
-/* =========================
-   Seasonal Pricing
-========================= */
+
+  // seasonal Pricing
 
 function getAdminSeasonalPricing() {
     $conn = getConnection();
@@ -358,9 +355,8 @@ function deleteAdminSeasonalPricing($id) {
     return $success;
 }
 
-/* =========================
-   Staff
-========================= */
+
+   //staff
 
 function getAdminStaff() {
     $conn = getConnection();
@@ -426,9 +422,8 @@ function updateAdminStaff($id, $name, $phone, $nationality, $idNumber, $role, $i
     return $success;
 }
 
-/* =========================
-   Guests + Bookings
-========================= */
+//gures+booking
+
 
 function getAdminGuests() {
     $conn = getConnection();
@@ -515,9 +510,8 @@ function updateAdminBookingStatus($id, $status) {
     return $success;
 }
 
-/* =========================
-   Reviews + Reports
-========================= */
+   //reviews + reports
+
 
 function getAdminReviews() {
     $conn = getConnection();
