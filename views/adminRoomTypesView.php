@@ -26,22 +26,22 @@
         <form action="index.php?route=do-admin-create-room-type" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" name="name" required>
+                <input type="text" name="name" >
             </div>
 
             <div class="form-group">
                 <label>Description</label>
-                <textarea name="description" rows="3" required></textarea>
+                <textarea name="description" rows="3" ></textarea>
             </div>
 
             <div class="form-group">
                 <label>Price Per Night</label>
-                <input type="number" name="price_per_night" min="1" required>
+                <input type="number" name="price_per_night" min="1" >
             </div>
 
             <div class="form-group">
                 <label>Max Capacity</label>
-                <input type="number" name="max_capacity" min="1" required>
+                <input type="number" name="max_capacity" min="1" >
             </div>
 
             <div class="form-group">
@@ -84,22 +84,22 @@
 
                 <div class="form-group">
                     <label>Name</label>
-                    <input type="text" name="name" value="<?php echo htmlspecialchars($type["name"]); ?>" required>
+                    <input type="text" name="name" value="<?php echo htmlspecialchars($type["name"]); ?>" >
                 </div>
 
                 <div class="form-group">
                     <label>Description</label>
-                    <textarea name="description" rows="3" required><?php echo htmlspecialchars($type["description"]); ?></textarea>
+                    <textarea name="description" rows="3" ><?php echo htmlspecialchars($type["description"]); ?></textarea>
                 </div>
 
                 <div class="form-group">
                     <label>Price Per Night</label>
-                    <input type="number" name="price_per_night" value="<?php echo $type["price_per_night"]; ?>" required>
+                    <input type="number" name="price_per_night" value="<?php echo $type["price_per_night"]; ?>">
                 </div>
 
                 <div class="form-group">
                     <label>Max Capacity</label>
-                    <input type="number" name="max_capacity" value="<?php echo $type["max_capacity"]; ?>" required>
+                    <input type="number" name="max_capacity" value="<?php echo $type["max_capacity"]; ?>" >
                 </div>
 
                 <div class="form-group">

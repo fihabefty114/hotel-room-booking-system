@@ -26,7 +26,7 @@
         <form action="index.php?route=do-admin-create-room" method="POST">
             <div class="form-group">
                 <label>Room Type</label>
-                <select name="room_type_id" required>
+                <select name="room_type_id" >
                     <?php foreach ($roomTypes as $type) { ?>
                         <option value="<?php echo $type["id"]; ?>"><?php echo htmlspecialchars($type["name"]); ?></option>
                     <?php } ?>
@@ -35,12 +35,12 @@
 
             <div class="form-group">
                 <label>Room Number</label>
-                <input type="text" name="room_number" required>
+                <input type="text" name="room_number" >
             </div>
 
             <div class="form-group">
                 <label>Floor</label>
-                <input type="number" name="floor" required>
+                <input type="number" name="floor" >
             </div>
 
             <div class="form-group">
@@ -82,12 +82,12 @@
 
                 <div class="form-group">
                     <label>Room Number</label>
-                    <input type="text" name="room_number" value="<?php echo htmlspecialchars($room["room_number"]); ?>" required>
+                    <input type="text" name="room_number" value="<?php echo htmlspecialchars($room["room_number"]); ?>">
                 </div>
 
                 <div class="form-group">
                     <label>Floor</label>
-                    <input type="number" name="floor" value="<?php echo $room["floor"]; ?>" required>
+                    <input type="number" name="floor" value="<?php echo $room["floor"]; ?>" >
                 </div>
 
                 <div class="form-group">

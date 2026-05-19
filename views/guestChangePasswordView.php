@@ -21,17 +21,17 @@
 
         <div class="form-group">
             <label>Current Password</label>
-            <input type="password" name="current_password" required>
+            <input type="password" name="current_password" >
         </div>
 
         <div class="form-group">
             <label>New Password</label>
-            <input type="password" name="new_password" required>
+            <input type="password" name="new_password" >
         </div>
 
         <div class="form-group">
             <label>Confirm New Password</label>
-            <input type="password" name="confirm_password" required>
+            <input type="password" name="confirm_password" >
         </div>
 
         <button type="submit">Change Password</button>

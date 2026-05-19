@@ -23,22 +23,22 @@
     <form action="index.php?route=do-housekeeping-profile-update" method="POST">
         <div class="form-group">
             <label>Name</label>
-            <input type="text" name="name" value="<?php echo htmlspecialchars($profile["name"]); ?>" required>
+            <input type="text" name="name" value="<?php echo htmlspecialchars($profile["name"]); ?>" >
         </div>
 
         <div class="form-group">
             <label>Email</label>
-            <input type="email" value="<?php echo htmlspecialchars($profile["email"]); ?>" disabled>
+            <input type="email" value="<?php echo htmlspecialchars($profile["email"]); ?>" >
         </div>
 
         <div class="form-group">
             <label>Phone</label>
-            <input type="text" name="phone" value="<?php echo htmlspecialchars($profile["phone"]); ?>" required>
+            <input type="text" name="phone" value="<?php echo htmlspecialchars($profile["phone"]); ?>" >
         </div>
 
         <div class="form-group">
             <label>ID Number</label>
-            <input type="text" name="id_number" value="<?php echo htmlspecialchars($profile["id_number"]); ?>" required>
+            <input type="text" name="id_number" value="<?php echo htmlspecialchars($profile["id_number"]); ?>" >
         </div>
 
         <button type="submit">Update Profile</button>

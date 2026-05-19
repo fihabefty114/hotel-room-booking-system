@@ -24,12 +24,12 @@
         <h3>Create Staff</h3>
 
         <form action="index.php?route=do-admin-create-staff" method="POST">
-            <input type="text" name="name" placeholder="Name" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="text" name="phone" placeholder="Phone" required>
-            <input type="text" name="nationality" placeholder="Nationality" required>
-            <input type="text" name="id_number" placeholder="ID Number" required>
+            <input type="text" name="name" placeholder="Name">
+            <input type="email" name="email" placeholder="Email" >
+            <input type="password" name="password" placeholder="Password" >
+            <input type="text" name="phone" placeholder="Phone" >
+            <input type="text" name="nationality" placeholder="Nationality" >
+            <input type="text" name="id_number" placeholder="ID Number" >
 
             <select name="role">
                 <option value="receptionist">Receptionist</option>

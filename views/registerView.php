@@ -48,37 +48,37 @@
     <form action="index.php?route=do-register" method="POST">
         <div class="form-group">
             <label>Name</label>
-            <input type="text" name="name" value="<?php echo $oldName; ?>" required>
+            <input type="text" name="name" value="<?php echo $oldName; ?>" >
         </div>
 
         <div class="form-group">
             <label>Email</label>
-            <input type="email" name="email" value="<?php echo $oldEmail; ?>" required>
+            <input type="email" name="email" value="<?php echo $oldEmail; ?>" >
         </div>
 
         <div class="form-group">
             <label>Phone</label>
-            <input type="text" name="phone" value="<?php echo $oldPhone; ?>" required>
+            <input type="text" name="phone" value="<?php echo $oldPhone; ?>" >
         </div>
 
         <div class="form-group">
             <label>Nationality</label>
-            <input type="text" name="nationality" value="<?php echo $oldNationality; ?>" required>
+            <input type="text" name="nationality" value="<?php echo $oldNationality; ?>">
         </div>
 
         <div class="form-group">
             <label>ID Number</label>
-            <input type="text" name="id_number" value="<?php echo $oldIdNumber; ?>" required>
+            <input type="text" name="id_number" value="<?php echo $oldIdNumber; ?>">
         </div>
 
         <div class="form-group">
             <label>Password</label>
-            <input type="password" name="password" required>
+            <input type="password" name="password" >
         </div>
 
         <div class="form-group">
             <label>Confirm Password</label>
-            <input type="password" name="confirm_password" required>
+            <input type="password" name="confirm_password" >
         </div>
 
         <button type="submit">Register</button>

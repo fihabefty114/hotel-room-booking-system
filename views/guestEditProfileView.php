@@ -21,7 +21,7 @@
 
         <div class="form-group">
             <label>Name</label>
-            <input type="text" name="name" value="<?php echo htmlspecialchars($guest["name"]); ?>" required>
+            <input type="text" name="name" value="<?php echo htmlspecialchars($guest["name"]); ?>">
         </div>
 
         <div class="form-group">
@@ -31,17 +31,17 @@
 
         <div class="form-group">
             <label>Phone</label>
-            <input type="text" name="phone" value="<?php echo htmlspecialchars($guest["phone"]); ?>" required>
+            <input type="text" name="phone" value="<?php echo htmlspecialchars($guest["phone"]); ?>" >
         </div>
 
         <div class="form-group">
             <label>Nationality</label>
-            <input type="text" name="nationality" value="<?php echo htmlspecialchars($guest["nationality"]); ?>" required>
+            <input type="text" name="nationality" value="<?php echo htmlspecialchars($guest["nationality"]); ?>" >
         </div>
 
         <div class="form-group">
             <label>ID Number</label>
-            <input type="text" name="id_number" value="<?php echo htmlspecialchars($guest["id_number"]); ?>" required>
+            <input type="text" name="id_number" value="<?php echo htmlspecialchars($guest["id_number"]); ?>" >
         </div>
 
         <button type="submit">Update Profile</button>

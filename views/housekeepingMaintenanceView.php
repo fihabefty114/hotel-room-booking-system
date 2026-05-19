@@ -26,7 +26,7 @@
         <form action="index.php?route=do-housekeeping-maintenance" method="POST">
             <div class="form-group">
                 <label>Select Room</label>
-                <select name="room_id" required>
+                <select name="room_id" >
                     <?php foreach ($rooms as $room) { ?>
                         <option value="<?php echo $room["id"]; ?>">
                             Room <?php echo htmlspecialchars($room["room_number"]); ?> -
@@ -39,7 +39,7 @@
 
             <div class="form-group">
                 <label>Issue Type</label>
-                <select name="issue_type" required>
+                <select name="issue_type" >
                     <option value="electricity">Electricity</option>
                     <option value="plumbing">Plumbing</option>
                     <option value="furniture">Furniture</option>
@@ -51,7 +51,7 @@
 
             <div class="form-group">
                 <label>Description</label>
-                <textarea name="description" rows="4" required></textarea>
+                <textarea name="description" rows="4" ></textarea>
             </div>
 
             <button type="submit">Submit Report</button>

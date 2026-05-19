@@ -44,7 +44,7 @@
             <form action="index.php?route=do-guest-upload-profile-picture" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label>Upload Profile Picture</label>
-                    <input type="file" name="profile_pic" required>
+                    <input type="file" name="profile_pic" >
                 </div>
 
                 <button type="submit">Upload Picture</button>

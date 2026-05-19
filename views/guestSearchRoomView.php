@@ -16,17 +16,17 @@
     <div class="search-box">
         <div class="form-group">
             <label>Check-in Date</label>
-            <input type="date" id="checkin_date" required>
+            <input type="date" id="checkin_date" >
         </div>
 
         <div class="form-group">
             <label>Check-out Date</label>
-            <input type="date" id="checkout_date" required>
+            <input type="date" id="checkout_date" >
         </div>
 
         <div class="form-group">
             <label>Number of Guests</label>
-            <input type="number" id="num_guests" min="1" required>
+            <input type="number" id="num_guests" min="1" >
         </div>
 
         <button type="button" onclick="searchAvailableRooms()">Search Rooms</button>

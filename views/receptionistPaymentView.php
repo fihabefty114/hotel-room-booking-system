@@ -25,7 +25,7 @@
 
         <div class="form-group">
             <label>Search by Booking ID or Guest Name</label>
-            <input type="text" name="keyword" value="<?php echo htmlspecialchars($keyword); ?>" required>
+            <input type="text" name="keyword" value="<?php echo htmlspecialchars($keyword); ?>" >
         </div>
 
         <button type="submit">Search Bill</button>
@@ -58,7 +58,7 @@
 
                     <div class="form-group">
                         <label>Payment Method</label>
-                        <select name="payment_method" required>
+                        <select name="payment_method" >
                             <option value="cash">Cash</option>
                             <option value="card">Card</option>
                             <option value="mobile_banking">Mobile Banking</option>

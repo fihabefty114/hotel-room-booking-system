@@ -31,7 +31,7 @@
 
                 <div class="form-group">
                     <label>Select Active Booking</label>
-                    <select name="booking_id" required>
+                    <select name="booking_id" >
                         <?php foreach ($activeStays as $stay) { ?>
                             <option value="<?php echo $stay["id"]; ?>">
                                 Booking <?php echo $stay["id"]; ?> -
@@ -44,7 +44,7 @@
 
                 <div class="form-group">
                     <label>Service Type</label>
-                    <select name="service_type" required>
+                    <select name="service_type" >
                         <option value="extra_bed">Extra Bed</option>
                         <option value="toiletries">Toiletries</option>
                         <option value="laundry">Laundry</option>
@@ -55,7 +55,7 @@
 
                 <div class="form-group">
                     <label>Description</label>
-                    <textarea name="description" rows="4" required></textarea>
+                    <textarea name="description" rows="4" ></textarea>
                 </div>
 
                 <button type="submit">Submit Request</button>

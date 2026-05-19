@@ -41,22 +41,22 @@
 
                         <div class="form-group">
                             <label>Overall Rating</label>
-                            <input type="number" name="overall_rating" min="1" max="5" required>
+                            <input type="number" name="overall_rating" min="1" max="5">
                         </div>
 
                         <div class="form-group">
                             <label>Cleanliness Rating</label>
-                            <input type="number" name="cleanliness_rating" min="1" max="5" required>
+                            <input type="number" name="cleanliness_rating" min="1" max="5" >
                         </div>
 
                         <div class="form-group">
                             <label>Service Rating</label>
-                            <input type="number" name="service_rating" min="1" max="5" required>
+                            <input type="number" name="service_rating" min="1" max="5" >
                         </div>
 
                         <div class="form-group">
                             <label>Review Text</label>
-                            <textarea name="review_text" rows="4" required></textarea>
+                            <textarea name="review_text" rows="4" ></textarea>
                         </div>
 
                         <button type="submit">Submit Review</button>
@@ -71,22 +71,22 @@
 
                         <div class="form-group">
                             <label>Overall Rating</label>
-                            <input type="number" name="overall_rating" min="1" max="5" value="<?php echo $item["overall_rating"]; ?>" required>
+                            <input type="number" name="overall_rating" min="1" max="5" value="<?php echo $item["overall_rating"]; ?>" >
                         </div>
 
                         <div class="form-group">
                             <label>Cleanliness Rating</label>
-                            <input type="number" name="cleanliness_rating" min="1" max="5" value="<?php echo $item["cleanliness_rating"]; ?>" required>
+                            <input type="number" name="cleanliness_rating" min="1" max="5" value="<?php echo $item["cleanliness_rating"]; ?>" >
                         </div>
 
                         <div class="form-group">
                             <label>Service Rating</label>
-                            <input type="number" name="service_rating" min="1" max="5" value="<?php echo $item["service_rating"]; ?>" required>
+                            <input type="number" name="service_rating" min="1" max="5" value="<?php echo $item["service_rating"]; ?>" >
                         </div>
 
                         <div class="form-group">
                             <label>Review Text</label>
-                            <textarea name="review_text" rows="4" required><?php echo htmlspecialchars($item["review_text"]); ?></textarea>
+                            <textarea name="review_text" rows="4" ><?php echo htmlspecialchars($item["review_text"]); ?></textarea>
                         </div>
 
                         <button type="submit">Update Review</button>
